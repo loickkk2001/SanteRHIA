@@ -1,0 +1,253 @@
+<div class="mon-agenda-container">
+  <!-- Header -->
+  <div class="header">
+    <h1 class="page-title">MON AGENDA</h1>
+    <div class="user-info" *ngIf="currentUser">
+      <span class="user-name"
+        >{{ currentUser.first_name }} {{ currentUser.last_name }}</span
+      >
+      <span class="user-role">Soignant</span>
+    </div>
+  </div>
+
+  <!-- Calendar Container -->
+  <div class="calendar-container">
+    <p-card>
+      <!-- Le calendrier personnalisé gère maintenant sa propre navigation -->
+      <div class="calendar-wrapper">
+        <app-custom-calendar
+          [events]="events"
+          [selectedDate]="selectedDate"
+          (dayClick)="onDayClick($event)"
+          (dateChange)="onDateSelect($event)"
+          (viewChange)="onViewChange($event)"
+        ></app-custom-calendar>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <p-card>
+      <h3>Légende</h3>
+      <div class="legend-items">
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #10b981"></div>
+          <span>Disponibilité validée</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #f59e0b"></div>
+          <span>Disponibilité proposée</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #ef4444"></div>
+          <span>Disponibilité refusée</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #3b82f6"></div>
+          <span>Soins</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #8b5cf6"></div>
+          <span>Congé</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #06b6d4"></div>
+          <span>Repos</span>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<!-- Availability Modal -->
+<p-dialog
+  header="Proposer une disponibilité"
+  [(visible)]="showAvailabilityModal"
+  [modal]="true"
+  [style]="{ width: '500px' }"
+  [closable]="true"
+  (onHide)="closeModals()"
+>
+  <div class="modal-content" *ngIf="selectedDay">
+    <div class="selected-date">
+      <i class="pi pi-calendar"></i>
+      <span>{{ formatDate(selectedDay) }}</span>
+    </div>
+
+    <div class="form-group">
+      <label for="availability_start_time">Heure de début</label>
+      <div class="time-input-container">
+        <input
+          id="availability_start_time"
+          type="time"
+          [(ngModel)]="availabilityForm.start_time"
+          class="form-control time-input"
+          required
+        />
+        <span class="time-example">Ex: 09:00</span>
+      </div>
+      <div class="quick-time-buttons">
+        <button
+          type="button"
+          class="quick-time-btn"
+          (click)="setQuickTime('start', '08:00')"
+        >
+          8h
+        </button>
+        <button
+          type="button"
+          class="quick-time-btn"
+          (click)="setQuickTime('start', '09:00')"
+        >
+          9h
+        </button>
+        <button
+          type="button"
+          class="quick-time-btn"
+          (click)="setQuickTime('start', '10:00')"
+        >
+          10h
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="availability_end_time">Heure de fin</label>
+      <div class="time-input-container">
+        <input
+          id="availability_end_time"
+          type="time"
+          [(ngModel)]="availabilityForm.end_time"
+          class="form-control time-input"
+          required
+        />
+        <span class="time-example">Ex: 17:00</span>
+      </div>
+      <div class="quick-time-buttons">
+        <button
+          type="button"
+          class="quick-time-btn"
+          (click)="setQuickTime('end', '16:00')"
+        >
+          16h
+        </button>
+        <button
+          type="button"
+          class="quick-time-btn"
+          (click)="setQuickTime('end', '17:00')"
+        >
+          17h
+        </button>
+        <button
+          type="button"
+          class="quick-time-btn"
+          (click)="setQuickTime('end', '18:00')"
+        >
+          18h
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="availability_commentaire">Commentaire (optionnel)</label>
+      <textarea
+        id="availability_commentaire"
+        pTextarea
+        [(ngModel)]="availabilityForm.commentaire"
+        rows="3"
+        placeholder="Ajoutez un commentaire..."
+      >
+      </textarea>
+    </div>
+
+    <div class="modal-actions">
+      <p-button
+        label="Annuler"
+        icon="pi pi-times"
+        [outlined]="true"
+        (onClick)="closeModals()"
+      >
+      </p-button>
+      <p-button
+        label="Proposer"
+        icon="pi pi-check"
+        (onClick)="submitAvailability()"
+      >
+      </p-button>
+      <p-button
+        label="Créer Planning"
+        icon="pi pi-calendar-plus"
+        [outlined]="true"
+        (onClick)="openPlanningModal()"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Planning Modal -->
+<p-dialog
+  header="Créer un planning"
+  [(visible)]="showPlanningModal"
+  [modal]="true"
+  [style]="{ width: '500px' }"
+  [closable]="true"
+  (onHide)="closeModals()"
+>
+  <div class="modal-content" *ngIf="selectedDay">
+    <div class="selected-date">
+      <i class="pi pi-calendar"></i>
+      <span>{{ formatDate(selectedDay) }}</span>
+    </div>
+
+    <div class="form-group">
+      <label for="planning_activity_code">Type d'activité</label>
+      <p-dropdown
+        id="planning_activity_code"
+        [(ngModel)]="planningForm.activity_code"
+        [options]="activityCodes"
+        placeholder="Sélectionnez une activité"
+      >
+      </p-dropdown>
+    </div>
+
+    <div class="form-group">
+      <label for="planning_plage_horaire">Plage horaire</label>
+      <p-dropdown
+        id="planning_plage_horaire"
+        [(ngModel)]="planningForm.plage_horaire"
+        [options]="timeSlots"
+        placeholder="Sélectionnez une plage horaire"
+      >
+      </p-dropdown>
+    </div>
+
+    <div class="form-group">
+      <label for="planning_commentaire">Commentaire (optionnel)</label>
+      <textarea
+        id="planning_commentaire"
+        pTextarea
+        [(ngModel)]="planningForm.commentaire"
+        rows="3"
+        placeholder="Ajoutez un commentaire..."
+      >
+      </textarea>
+    </div>
+
+    <div class="modal-actions">
+      <p-button
+        label="Annuler"
+        icon="pi pi-times"
+        [outlined]="true"
+        (onClick)="closeModals()"
+      >
+      </p-button>
+      <p-button label="Créer" icon="pi pi-check" (onClick)="submitPlanning()">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>

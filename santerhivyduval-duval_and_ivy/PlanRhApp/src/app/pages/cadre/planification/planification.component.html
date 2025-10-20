@@ -1,0 +1,270 @@
+<div class="planification-container">
+  <!-- Header -->
+  <div class="planification-header">
+    <h1>SIMULATION DE PLANNING</h1>
+
+    <!-- Filtres temporels -->
+    <div class="filters-section">
+      <div class="filter-group">
+        <label>Année</label>
+        <p-dropdown
+          [(ngModel)]="filters.annee"
+          [options]="annees"
+          (onChange)="onFilterChange()"
+          placeholder="Sélectionner l'année"
+          [showClear]="false"
+        >
+        </p-dropdown>
+      </div>
+
+      <div class="filter-group">
+        <label>Mois</label>
+        <p-dropdown
+          [(ngModel)]="filters.mois"
+          [options]="mois"
+          (onChange)="onFilterChange()"
+          placeholder="Sélectionner le mois"
+          [showClear]="false"
+        >
+        </p-dropdown>
+      </div>
+
+      <div class="filter-group">
+        <label>Semaine</label>
+        <p-dropdown
+          [(ngModel)]="filters.semaine"
+          [options]="semaines"
+          (onChange)="onFilterChange()"
+          placeholder="Sélectionner la semaine"
+          [showClear]="false"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="action-buttons">
+      <p-button
+        label="Simuler"
+        icon="pi pi-calculator"
+        (onClick)="showSimulationOptions = !showSimulationOptions"
+        [class.active]="showSimulationOptions"
+      >
+      </p-button>
+
+      <p-button
+        label="Valider"
+        icon="pi pi-check"
+        (onClick)="validerPlanning()"
+        [disabled]="!hasChanges"
+      >
+      </p-button>
+
+      <p-button
+        label="Modifier"
+        icon="pi pi-pencil"
+        (onClick)="toggleEditMode()"
+        [class.active]="editMode"
+      >
+      </p-button>
+
+      <p-button
+        label="Publier"
+        icon="pi pi-send"
+        (onClick)="showPublishOptions = !showPublishOptions"
+        [class.active]="showPublishOptions"
+      >
+      </p-button>
+    </div>
+  </div>
+
+  <!-- Options de simulation -->
+  <div class="simulation-options" *ngIf="showSimulationOptions">
+    <p-button
+      label="Simuler avec contrat actuel"
+      (onClick)="simulerAvecContratActuel()"
+      [outlined]="true"
+    >
+    </p-button>
+    <p-button
+      label="Simuler avec contrat personnalisé"
+      (onClick)="simulerAvecContratPersonnalise()"
+      [outlined]="true"
+    >
+    </p-button>
+  </div>
+
+  <!-- Options de publication -->
+  <div class="publish-options" *ngIf="showPublishOptions">
+    <p-button label="Publier aux agents" [outlined]="true"> </p-button>
+    <p-button label="Notifier" [outlined]="true"> </p-button>
+    <p-button label="Annuler publication" [outlined]="true"> </p-button>
+  </div>
+
+  <!-- Tableau de planification -->
+  <div class="planning-table-container" *ngIf="!loading && agents.length > 0">
+    <table class="planning-table">
+      <!-- En-têtes des semaines -->
+      <thead>
+        <tr class="week-headers">
+          <th rowspan="3" class="agent-header">Nom</th>
+          <th rowspan="3" class="agent-header">Prénom</th>
+          <th rowspan="3" class="contract-header">Contrat hebdo</th>
+          <th
+            *ngFor="let week of planningWeeks"
+            [attr.colspan]="7"
+            class="week-header"
+          >
+            {{ getWeekLabel(week) }}
+          </th>
+        </tr>
+
+        <!-- En-têtes des jours -->
+        <tr class="day-headers">
+          <th *ngFor="let day of getAllDays()" class="day-header">
+            {{ getDayName(day) }}
+          </th>
+        </tr>
+
+        <!-- Dates -->
+        <tr class="date-headers">
+          <th *ngFor="let day of getAllDays()" class="date-header">
+            {{ getDayNumber(day) }}
+          </th>
+        </tr>
+      </thead>
+
+      <!-- Corps du tableau -->
+      <tbody>
+        <tr *ngFor="let agent of agents" class="agent-row">
+          <td class="agent-cell">{{ agent.nom }}</td>
+          <td class="agent-cell">{{ agent.prenom }}</td>
+          <td class="contract-cell">
+            {{ formatContractHours(agent.contrat_hebdo) }}
+          </td>
+
+          <!-- Cellules de planning -->
+          <td
+            *ngFor="let day of getAllDays()"
+            class="planning-cell"
+            [class.proposed]="getCellStatus(agent.id, day) === 'proposé'"
+            [class.validated]="getCellStatus(agent.id, day) === 'validé'"
+            [class.refused]="getCellStatus(agent.id, day) === 'refusé'"
+            [class.editable]="editMode"
+            [class.empty]="getCellStatus(agent.id, day) === 'vide'"
+            (click)="onCellClick(agent.id, day)"
+            [title]="getCellTooltip(agent.id, day)"
+          >
+            <!-- Contenu de la cellule -->
+            <div class="cell-content">
+              <span class="activity-code">{{
+                getCellCode(agent.id, day)
+              }}</span>
+
+              <!-- Boutons d'action pour les propositions -->
+              <div
+                *ngIf="getCellStatus(agent.id, day) === 'proposé'"
+                class="cell-actions"
+              >
+                <button
+                  class="action-btn validate-btn"
+                  (click)="validerProposition(agent.id, day, $event)"
+                  title="Valider cette proposition"
+                >
+                  <i class="pi pi-check"></i>
+                </button>
+                <button
+                  class="action-btn refuse-btn"
+                  (click)="refuserProposition(agent.id, day, $event)"
+                  title="Refuser cette proposition"
+                >
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+
+              <!-- Indicateur de mode édition -->
+              <div
+                *ngIf="editMode && getCellStatus(agent.id, day) === 'vide'"
+                class="edit-indicator"
+              >
+                <i class="pi pi-pencil"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Message si aucun agent -->
+  <div class="no-data-container" *ngIf="!loading && agents.length === 0">
+    <div class="no-data-content">
+      <i class="pi pi-users" style="font-size: 3rem; color: #64748b"></i>
+      <h3>Aucun agent trouvé</h3>
+      <p>
+        Il n'y a actuellement aucun agent dans votre service pour cette période.
+      </p>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div class="loading-container" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Chargement des données de planification...</p>
+  </div>
+
+  <!-- Légende -->
+  <div class="legend">
+    <p>
+      <strong>Remarque :</strong> "RH" c'est le code de travail. Il peut donc
+      être : CA, J', EX, CSF, F, ... La liste complète de ces codes est à
+      fournir par l'hôpital
+    </p>
+  </div>
+</div>
+
+<!-- Modal d'édition manuelle -->
+<p-dialog
+  header="Saisie manuelle"
+  [(visible)]="showEditModal"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+>
+  <div class="edit-form">
+    <div class="form-group">
+      <label>Agent :</label>
+      <p>{{ getSelectedAgentName() }}</p>
+    </div>
+
+    <div class="form-group">
+      <label>Date :</label>
+      <p>{{ selectedDate | date : "dd/MM/yyyy" }}</p>
+    </div>
+
+    <div class="form-group">
+      <label>Code d'activité :</label>
+      <p-dropdown
+        [(ngModel)]="selectedActivityCode"
+        [options]="activityCodes"
+        placeholder="Sélectionner un code"
+      >
+      </p-dropdown>
+    </div>
+
+    <div class="edit-actions">
+      <p-button label="Valider" (onClick)="saveManualEdit()" icon="pi pi-check">
+      </p-button>
+      <p-button
+        label="Annuler"
+        (onClick)="cancelManualEdit()"
+        [outlined]="true"
+        icon="pi pi-times"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Toast pour les messages -->
+<p-toast></p-toast>

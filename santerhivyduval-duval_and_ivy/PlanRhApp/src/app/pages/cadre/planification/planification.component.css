@@ -1,0 +1,492 @@
+/* planification.component.css */
+.planification-container {
+  padding: 20px;
+  background: white;
+  min-height: 100vh;
+}
+
+.planification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.planification-header h1 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 2rem;
+  font-weight: bold;
+  flex: 1;
+  min-width: 300px;
+}
+
+.filters-section {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 120px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-buttons .p-button {
+  min-width: 120px;
+}
+
+.action-buttons .p-button.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.simulation-options,
+.publish-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.planning-table-container {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.planning-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.week-header {
+  background: #3b82f6;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  border: 1px solid #2563eb;
+}
+
+.day-header {
+  background: #f8fafc;
+  color: #374151;
+  text-align: center;
+  font-weight: 600;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.date-header {
+  background: #f1f5f9;
+  color: #64748b;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 5px;
+  border: 1px solid #e2e8f0;
+}
+
+.agent-header {
+  background: #f8fafc;
+  color: #374151;
+  font-weight: bold;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #e2e8f0;
+  min-width: 120px;
+}
+
+.contract-header {
+  background: #f8fafc;
+  color: #374151;
+  font-weight: bold;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  min-width: 100px;
+}
+
+.agent-cell {
+  background: #f8fafc;
+  padding: 12px 15px;
+  border: 1px solid #e2e8f0;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.contract-cell {
+  background: #f8fafc;
+  padding: 12px 15px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+}
+
+.planning-cell {
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  min-width: 60px;
+  height: 50px;
+  position: relative;
+  vertical-align: middle;
+}
+
+.planning-cell.proposed {
+  background-color: #dbeafe; /* Bleu clair pour propositions */
+  border-color: #93c5fd;
+}
+
+.planning-cell.validated {
+  background-color: #dcfce7; /* Vert clair pour validé */
+  border-color: #86efac;
+}
+
+.planning-cell.refused {
+  background-color: #fee2e2; /* Rouge clair pour refusé */
+  border-color: #fca5a5;
+}
+
+.planning-cell.editable {
+  cursor: pointer;
+}
+
+.planning-cell.editable:hover {
+  background-color: #f0f9ff;
+  border-color: #3b82f6;
+}
+
+/* Amélioration des cellules vides */
+.planning-cell.empty {
+  background-color: #f8fafc;
+  border-style: dashed;
+  border-color: #cbd5e1;
+}
+
+.planning-cell.empty:hover {
+  background-color: #f0f9ff;
+  border-color: #3b82f6;
+  border-style: solid;
+}
+
+.cell-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 5px;
+  position: relative;
+}
+
+.activity-code {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.cell-actions {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+.action-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: scale(1.1);
+}
+
+.validate-btn {
+  background: #10b981;
+  color: white;
+}
+
+.validate-btn:hover {
+  background: #059669;
+}
+
+.refuse-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.refuse-btn:hover {
+  background: #dc2626;
+}
+
+/* Indicateur d'édition */
+.edit-indicator {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  color: #64748b;
+  font-size: 0.7rem;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #64748b;
+}
+
+.loading-container p {
+  margin-top: 15px;
+  font-size: 1.1rem;
+}
+
+/* Container pour aucun agent */
+.no-data-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.no-data-content h3 {
+  margin: 20px 0 10px 0;
+  color: #374151;
+  font-size: 1.5rem;
+}
+
+.no-data-content p {
+  color: #64748b;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.legend {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.legend p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group p {
+  margin: 0;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  color: #64748b;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .planification-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .planification-header h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .filters-section {
+    justify-content: center;
+  }
+  
+  .action-buttons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .planification-container {
+    padding: 10px;
+  }
+  
+  .planification-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .filters-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .p-button {
+    width: 100%;
+  }
+  
+  .simulation-options,
+  .publish-options {
+    flex-direction: column;
+  }
+  
+  .planning-table {
+    font-size: 0.8rem;
+  }
+  
+  .planning-cell {
+    min-width: 50px;
+    height: 40px;
+  }
+  
+  .activity-code {
+    font-size: 0.8rem;
+  }
+}
+
+/* Animation pour les cellules */
+.planning-cell {
+  transition: all 0.3s ease;
+}
+
+.planning-cell:hover {
+  transform: scale(1.02);
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation pour les propositions */
+.planning-cell.proposed {
+  animation: pulse-proposed 2s infinite;
+}
+
+@keyframes pulse-proposed {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Styles pour les états de chargement */
+.p-progressspinner {
+  width: 50px;
+  height: 50px;
+}
+
+/* Amélioration de l'accessibilité */
+.action-btn:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.planning-cell.editable:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Amélioration des tooltips */
+.planning-cell[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Styles pour les messages de statut */
+.cell-content::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.planning-cell.proposed .cell-content::after {
+  background: #3b82f6;
+}
+
+.planning-cell.validated .cell-content::after {
+  background: #10b981;
+}
+
+.planning-cell.refused .cell-content::after {
+  background: #ef4444;
+}
+
+

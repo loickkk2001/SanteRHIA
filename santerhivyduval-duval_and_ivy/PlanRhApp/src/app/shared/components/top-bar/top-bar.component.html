@@ -1,0 +1,32 @@
+<div
+  class="flex flex-row items-center justify-between h-14 px-5 border-b-2 bg-white"
+>
+  <!-- Date on the far left -->
+  <div class="flex-none">
+    <p class="font-medium text-lg text-black">
+      {{ today | date : "EEEE d MMMM yyyy" | titlecase }}
+    </p>
+  </div>
+
+  <!-- Logged-in user's name in the center -->
+  <div class="flex-1 text-center">
+    <p class="font-bold text-black">
+      Type de profil {{ userRole !== null ? userRole : "U" }} :
+      {{ name !== null ? name : "N/A" }}
+    </p>
+  </div>
+
+  <!-- Supervisor's name and notifications on the far right -->
+  <div class="flex-none flex items-center gap-5">
+    <!-- Notification bell -->
+    <app-notification-bell
+      [userId]="userId"
+      (notificationClick)="onNotificationClick($event)"
+    >
+    </app-notification-bell>
+
+    <p class="font-bold text-black">
+      Mon Manager : {{ managerName !== null ? managerName : "N/A" }}
+    </p>
+  </div>
+</div>

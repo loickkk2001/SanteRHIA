@@ -1,0 +1,125 @@
+<div class="saphir-portal-container">
+  <!-- Header Section -->
+  <div class="portal-header">
+    <h1 class="portal-title">Accueil</h1>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="portal-content">
+    <!-- Left Column -->
+    <div class="left-column">
+      <!-- MA GESTION DES TEMPS Section -->
+      <div class="section-container">
+        <h2 class="section-title">MA GESTION DES TEMPS</h2>
+        <p class="section-subtitle">Bienvenue dans le portail SAPHIR</p>
+
+        <!-- INFOS / ALERTES / EVOLUTIONS Rectangle -->
+        <div class="info-alerts-evolutions">
+          <div class="info-content">
+            <div class="info-line">INFOS</div>
+            <div class="info-line">ALERTES</div>
+            <div class="info-line">ÉVOLUTIONS</div>
+          </div>
+          <div class="alert-message">
+            {{ currentAlertMessage }}
+          </div>
+        </div>
+      </div>
+
+      <!-- GESTION PERSONNELLE Section -->
+      <div class="section-container">
+        <h2 class="section-title">GESTION PERSONNELLE</h2>
+
+        <!-- Anomalies and Events Cards -->
+        <div class="personal-management-cards">
+          <div class="management-card anomalies-card">
+            <div class="card-number">{{ anomaliesCount }}</div>
+            <div class="card-text">anomalie(s) à résoudre</div>
+            <div class="card-details">
+              <div class="detail-item">• Erreurs: {{ errorsCount }}</div>
+              <div class="detail-item">
+                • Absences non justifiées: {{ unjustifiedAbsencesCount }}
+              </div>
+              <div class="detail-item">
+                • Dépassements horaires: {{ overtimeCount }}
+              </div>
+            </div>
+          </div>
+
+          <div class="management-card events-card">
+            <div class="card-number">{{ pendingEventsCount }}</div>
+            <div class="card-text">évènement(s) en attente</div>
+            <div class="card-details">
+              <div class="detail-item">
+                • Demandes équipe: {{ teamRequestsCount }}
+              </div>
+              <div class="detail-item">
+                • Autres: {{ pendingEventsCount - teamRequestsCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+      <!-- Mon calendrier Section -->
+      <div class="section-container">
+        <h2 class="section-title">Mon calendrier</h2>
+        <p class="calendar-date">au {{ currentDate }}</p>
+
+        <!-- Nearest HR Event -->
+        <div class="nearest-hr-event" *ngIf="nearestHREvent">
+          <div class="hr-event-title">Prochain événement RH:</div>
+          <div class="hr-event-details">
+            {{ nearestHREvent.title }} -
+            {{ formatEventDate(nearestHREvent.due_date) }}
+          </div>
+        </div>
+
+        <!-- Calendar placeholder -->
+        <div class="calendar-placeholder">
+          <p-calendar
+            [inline]="true"
+            [showWeek]="true"
+            [showButtonBar]="false"
+            styleClass="custom-calendar"
+          >
+          </p-calendar>
+        </div>
+      </div>
+
+      <!-- A venir Section -->
+      <div class="section-container">
+        <h2 class="section-title">À venir</h2>
+
+        <!-- Upcoming Events List -->
+        <div class="upcoming-events">
+          <div
+            *ngFor="let event of upcomingEvents.slice(0, 3)"
+            class="upcoming-event"
+          >
+            <div class="event-code">
+              {{ event.metadata?.code_temps || "Code temps" }}
+            </div>
+            <div class="event-title">{{ event.title }}</div>
+            <div class="event-date" *ngIf="event.due_date">
+              {{ formatEventDate(event.due_date) }}
+            </div>
+          </div>
+
+          <!-- Default upcoming event if none exist -->
+          <div *ngIf="upcomingEvents.length === 0" class="upcoming-event">
+            <div class="event-code">Code temps du congé annuel</div>
+            <div class="event-title">Congé Annuel</div>
+            <div class="event-date">23/04/2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <p-toast></p-toast>
+</div>

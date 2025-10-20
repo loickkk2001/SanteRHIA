@@ -1,0 +1,22 @@
+<div class="flex flex-col">
+  <div (click)="toggleDropdown()" 
+       class="font-semibold cursor-pointer flex gap-3 text-sm items-center mb-1 mt-1 pl-4 justify-start h-10 w-4/5 transition-colors duration-200"
+       [ngClass]="{'text-blue-700': isActive(item.link || ''), 'text-blue-500': !isActive(item.link || '')}">
+    <span [class]="item.icon"></span>
+    <p class="hidden sm:block">{{ item.title }}</p>
+    <span class="pi pi-chevron-down ml-auto" [ngClass]="{'transform rotate-180': isOpen}"></span>
+  </div>
+
+  @if (isOpen && item.children) {
+    <div class="ml-6 pl-3">
+      @for (child of item.children; track child.title) {
+        <a [href]="child.link" 
+           class="font-semibold cursor-pointer flex gap-3 text-sm items-center mt-1 justify-start h-10 w-4/5 transition-colors duration-200"
+           [ngClass]="{'text-blue-700': isActive(child.link || ''), 'text-blue-500': !isActive(child.link || '')}">
+          <span [class]="child.icon"></span>
+          <p class="hidden sm:block">{{ child.title }}</p>
+        </a>
+      }
+    </div>
+  }
+</div>

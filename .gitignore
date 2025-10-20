@@ -1,0 +1,36 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+*.log
+
+# Node / Angular
+PlanRhApp/node_modules/
+PlanRhApp/dist/
+PlanRhApp/.angular/cache/
+*.map
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Data / artifacts
+*.sqlite
+*.db
+*.sqlite3
+*.xlsx
+*.csv
+*.bak
+
+# Others
+.planrh_local/
+**/.pytest_cache/
+coverage/
+

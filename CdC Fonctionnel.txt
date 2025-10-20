@@ -1,0 +1,953 @@
+﻿PLANIFICATION CO-CRÉATIVE ET INTELLIGENTE DE LA GRH
+Cahier des Charges         Fonctionnel
+Rédigé par SIYAPTZE Ivy
+
+
+
+
+PRÉSENTATION DU PROJET 
+
+
+Contexte général
+ 
+Dans un environnement hospitalier marqué par des tensions sur les ressources humaines, une charge administrative croissante et des exigences élevées en matière de continuité des soins, la gestion des plannings constitue un défi organisationnel majeur. Le Centre Hospitalier d’Arpajon, à l’instar de nombreux établissements de santé, est confronté à une instabilité des effectifs, une multiplication des heures supplémentaires, et une difficulté croissante à concilier les contraintes institutionnelles avec les besoins individuels des professionnels de santé.
+
+
+Dans ce contexte, l’établissement s’est engagé dans une démarche d’innovation organisationnelle visant à renforcer la qualité de vie au travail (QVT), à responsabiliser les équipes dans la construction de leur emploi du temps, et à moderniser les pratiques managériales par le biais d’une application numérique de planification co-créative et intelligente.
+
+
+Finalité du projet
+
+
+Ce projet vise à concevoir et mettre en œuvre un outil numérique permettant :
+
+
+* Aux soignants de proposer eux-mêmes leurs disponibilités selon des paramètres préétablis,
+* Aux cadres de santé de valider, ajuster et finaliser les plannings, tout en suivant les absences et les besoins de remplacement,
+* Au système de générer automatiquement des plannings lorsque les utilisateurs ne se manifestent pas,
+* Et de centraliser la gestion des temps de travail, des congés, des absences, dans une interface fluide, sécurisée et conforme au RGPD.
+
+
+L’application repose sur une démarche participative, une gestion hybride (humaine + automatique), et une intégration progressive dans le fonctionnement des services hospitaliers.
+
+
+Objet du Cahier des Charges fonctionnels
+
+
+Ce cahier des charges fonctionnel (CdCF) a pour objectif de :
+
+
+* Décrire de manière détaillée le fonctionnement attendu de l’outil, écran par écran, du point de vue de l’utilisateur,
+* Spécifier les règles de gestion métier, les comportements, les états, les conditions d’affichage, les transitions et les contraintes,
+* Fournir au développeur une référence claire et structurée pour le développement de l’interface et des interactions,
+* Servir de base commune entre les porteurs du projet, les équipes techniques et les parties prenantes métier (cadres, soignants, DSI).
+
+
+Public concerné par ce document
+
+
+* Développeur(s) front-end et back-end
+* Chef de projet fonctionnel
+* Référents métiers (cadres de santé, RH, utilisateurs pilotes)
+* Équipe DSI du Centre Hospitalier d’Arpajon
+
+
+
+
+OBJECTIFS FONCTIONNELS DE L’OUTIL
+
+
+Objectif général 
+
+
+Le système a pour objectif principal de fournir une application numérique sécurisée, intuitive et collaborative, permettant de planifier efficacement les horaires du personnel soignant, tout en prenant en compte :
+* les disponibilités exprimées par les agents,
+* les contraintes réglementaires et organisationnelles,
+* les validations hiérarchiques indispensables,
+* et les imprévus inhérents à l’activité hospitalière (absences, remplacements, urgences).
+
+
+L’application doit être un levier d’optimisation des ressources humaines tout en garantissant une qualité de vie au travail renforcée et une meilleure transparence dans l’organisation des temps de travail.
+
+
+Objectifs fonctionnels spécifiques
+
+
+Le système devra permettre les fonctionnalités suivantes :
+
+
+Pour le personnel soignant (utilisateurs de profil “collaborateur”)
+* Accéder à un espace personnel sécurisé via authentification matricule + mot de passe 
+* Proposer ses disponibilités sur des plages de travail prédéfinies, selon un calendrier configurable ;
+* Visualiser son propre planning validé par les cadres ;
+* Recevoir des notifications (rappels, alertes, modifications de planning, missions) ;
+* Consulter ses soldes de temps (congés, RTT, absences, etc.) en temps réel ;
+* Soumettre des demandes d’absences ou de congés selon un motif sélectionné ;
+* Être informé de l’état de traitement de ses demandes (en attente, validée, refusée).
+* Accepter ou rejeter les missions
+
+
+Pour les cadres de santé (utilisateurs de profil “manager”)
+* Accéder à une vue consolidée des plannings de leur équipe (vue par service, jour, semaine) ;
+* Valider ou ajuster les propositions de disponibilité des agents ;
+* Publier des missions standard ou express pour l’ensemble du personnel ;
+* Gérer les demandes d’absences et suivre les soldes de chaque soignant;
+* Être alerté en cas de déséquilibre (sous-effectif, doublon, temps de repos insuffisant, etc.) ;
+* Consulter l’historique des actions et des validations (traçabilité des décisions).
+
+
+Pour le système (fonctionnalités automatisées)
+* Générer un planning par défaut en cas d’absence de saisie de disponibilités dans le délai imparti ;
+* Appliquer les règles de conformité RH (quotas horaires, temps de repos, heures supplémentaires) ;
+* Assurer la cohérence des plannings entre services (continuité de soins) ;
+* Protéger les données personnelles via une gestion sécurisée des accès (RGPD).
+
+
+L'application repose sur une logique hybride :
+* L’humain reste décisionnaire (saisie et validation),
+* L’outil automatise ce qui peut l’être (pré-remplissage, alertes, cohérence, rappels).
+
+
+UTILISATEURS ET PROFILS
+
+
+Typologie des utilisateurs  
+
+
+Le système repose sur une segmentation claire des profils utilisateurs, chacun disposant d’un périmètre fonctionnel et de droits d’accès spécifiques. Trois profils sont identifiés dans la version actuelle du projet :
+
+
+Profil utilisateur
+	Intitulé fonctionnel
+	Description
+	Soignant
+	Collaborateur / Agent hospitalier
+	Personnel médical ou paramédical (infirmiers, aides-soignants, sages-femmes, etc.) souhaitant proposer ses disponibilités, consulter ses plannings et gérer ses congés
+	Cadre de santé
+	Manager / Responsable de service
+	Cadres de santé en charge de la planification des agents de leur service. Valident, modifient ou publient les plannings
+	Administrateur
+	Administrateur DSI / RH
+	
+
+Profil technique supervisant les droits d’accès, les données, la sécurité et les paramétrages structurels. Ce rôle est envisagé dans une future version.
+	
+
+	
+
+
+
+Droits et périmètres fonctionnels  
+
+
+Fonctionnalité
+	Soignant
+	Cadre
+	Administrateur
+	Authentification (matricule + mot de passe)
+	✅
+	✅
+	✅
+	Consultation de son planning personnel
+	✅
+	❌
+	❌
+	Proposition de créneaux de travail
+	✅
+	❌
+	❌
+	Soumission de demandes d’absence/congé
+	✅
+	❌
+	❌
+	Visualisation des soldes de temps
+	✅
+	✅
+	❌
+	Validation et ajustement des plannings
+	❌
+	✅
+	✅
+	Publication de missions
+	❌
+	✅
+	✅
+	Suivi des absences imprévues / alertes RH
+	❌
+	✅
+	✅
+	Accès aux plannings d’équipe
+	❌
+	✅
+	✅
+	Journalisation des accès
+	❌
+	❌
+	✅
+	Gestion des comptes utilisateurs et des accès
+	❌
+	❌
+	✅
+	
+
+Précisions complémentaires 
+
+
+* Un utilisateur ne peut pas changer de rôle par lui-même.
+* La gestion des droits d’accès est assurée par l’administrateur (DSI ou RH)
+* Le profil soignant regroupe tous les agents hospitaliers quel que soit leur statut (permanent, contractuel ou vacataire), sous réserve d’identifiants valides fournis par la DRH
+* L’affichage des informations dans l’application est personnalisé en fonction du profil, notamment dans les menus latéraux et la page d’accueil.
+* L’outil prévoit un journal d’activité par utilisateur, horodaté, non modifiable, à des fins de traçabilité (visible uniquement côté admin/DSI)
+ 
+DESCRIPTION DES ÉCRANS 
+
+
+Profil Cadre 
+
+
+1. Page de connexion
+  
+
+ 
+L’objectif de cette page est de permettre à un utilisateur de type cadre de santé de s’authentifier de manière sécurisée pour accéder à son tableau de bord de gestion d’équipe.
+
+
+* Composants fonctionnels
+Champ / Élément
+	Type
+	Fonction / Description
+	compteMatricule
+	Input (texte)
+	Saisie du matricule de l’utilisateur. Vérification côté serveur. Obligatoire
+	motDePasse
+	Input (password)
+	Champ masqué. Doit respecter des critères de sécurité (min. 8 caractères)
+	seSouvenirDeMoi
+	Checkbox
+	Permet de retenir la session localement 
+	btnConnexion
+	Bouton action
+	Valide les champs et déclenche la tentative de connexion
+	aideConnexion
+	Lien texte
+	Redirige vers une aide ou un formulaire de demande d’assistance
+	* Sécurité & authentification
+* Les identifiants sont vérifiés côté serveur via une API d’authentification
+* Le mot de passe ne doit jamais transiter en clair (transmission chiffrée)
+* En cas de 5 tentatives échouées successives, verrouillage temporaire de 10 minutes
+* En cas d’identifiants incorrects, afficher un message d’erreur générique :
+Identifiant ou mot de passe incorrect
+* Si le compte est désactivé ou invalide (profil non reconnu), message spécifique :
+Votre compte n’est pas autorisé à accéder à cet espace
+
+   * Comportement dynamique
+   * Le bouton "Se connecter" reste désactivé tant que les champs requis ne sont pas remplis
+   * Après une soumission réussie, redirection vers : ECRAN_ACCUEIL_CADRE (tableau de bord manager)
+   * Si la case "Se souvenir de moi" est cochée, stockage local sécurisé d'authentification avec date d’expiration (max 24h recommandées pour une session active persistante).
+   * Contraintes techniques
+   * Le champ "matricule" peut être alphanumérique (ex : format type C0001234)
+   * Le backend devra renvoyer : profil utilisateur, nom complet, droits associés, et état du compte
+   * Prévoir un middleware de redirection automatique si un utilisateur non-cadre tente d’accéder à cet espace
+   * L’URL de connexion doit être protégée contre le "brute force" (rate limiting).
+
+
+   2. Page d’accueil
+
+
+  
+
+
+
+L’objectif est de donner au cadre de santé une vue synthétique et immédiate de : 
+   * Les alertes et évolutions du système
+   * Son calendrier et les événements à venir
+   * Un accès rapide aux modules clés via le menu latéral dynamique
+   * L’état des demandes RH à traiter (anomalies, événements)
+
+
+
+
+Composant
+	Fonction / Comportement attendu
+	Bloc “Ma gestion des temps”
+	Aucun effet actif. Affiche le nom du portail (ex. SAPHIR) selon paramétrage.
+	Zone “INFOS / ALERTES / ÉVOLUTIONS”
+	Zone éditable côté back-office, affichant des annonces RH, alertes de sécurité, nouveautés. Vide = message neutre : “Aucune alerte en cours.”
+	Bloc “Gestion personnelle”
+	Affiche deux compteurs numériques :• Anomalies à résoudre : erreurs, absences non justifiées, dépassements horaires• Événements en attente : demandes de l’équipe en attente de validation
+	Panneau “Mon calendrier”
+	Affiche la date du jour et l’événement RH le plus proche. Lecture seule. Données issues du planning personnel du cadre.
+	Encadré “À venir”
+	Détail de l’événement le plus proche sous format : 
+Code temps - Libellé + Date 
+	   * Navigation disponible (menu latéral)
+Entrée
+	Fonction 
+	Accueil
+	Page actuelle
+	Mes demandes
+	Accès aux demandes personnelles du cadre (comme les soignants)
+	   * Mes comptes de temps / Synthèse des droits
+	Vue des soldes du cadre
+	   * Absences / Congés
+	Demandes personnelles
+	   * Historique
+	Historique des demandes soumises 
+	Gestion de mon équipe
+	Bloc central métier
+	   * Mon équipe
+	Vue des agents encadrés, profils, statuts, accès aux compétences, …
+	   * Planification
+	Accès au planning global du service
+	   * Missions
+	Création des missions
+	   * Validation des missions
+	Interface de validation (missions répondues)
+	   * Validation des demandes
+	Interface de validation des absences et congés des soignants 
+	
+
+   3. Mes demandes (Mes comptes de temps / Synthèse des droits)
+  
+
+
+
+L’objectif fonctionnel est de permettre au cadre de consulter en lecture seule :
+   * Son solde de jours de repos / congés par typologie
+   * Un récapitulatif des droits acquis, restants, et déjà pris
+Cet écran est informatif uniquement, sans fonctionnalité de modification.
+   * Bloc “Mes comptes de temps”
+Type de congé
+	Donnée affichée
+	Congés Hors Saison (CHS)
+	Solde en jours
+	CFR
+	Solde en jours
+	Congé Annuel (CA)
+	Solde en jours
+	RTT
+	Solde en jours
+	Permettre au cadre de consulter en lecture seule :
+   * Bloc “Synthèse des droits”
+Ce tableau présente pour chaque type de congé :
+   * Le libellé du droit
+   * Le solde restant à poser (RESTANT A POSER)
+   * Le nombre de jours déjà posés (DROITS PRIS)
+   *    * Contraintes techniques
+   * Lecture seule – aucune action possible
+   * Prévoir un fallback si les données ne sont pas encore disponibles (message : “Données en cours de synchronisation”)
+
+
+   4. Mes demandes (Absences / Congés)
+
+
+  
+
+
+
+Ce bloc permettra à l'utilisateur de spécifier les détails d'une absence (motif, dates, commentaire) et de la soumettre pour validation
+
+
+Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Règle de Gestion / Info
+	"Lorsque vous posez une période de congés englobant des jours de repos fixe, les congés ne sont pas décomptés sur les jours de repos"
+	Texte statique
+	Informer l'utilisateur sur une règle spécifique de calcul des congés, visant à éviter toute confusion.
+	
+
+	Champ "Motif"
+	"Motif" (Libellé), "Sélectionnez le libellé"
+	Liste Déroulante (Dropdown) avec flèche
+	Permettre à l'utilisateur de choisir le type d'absence (ex: Congés Payés, RTT, Maladie, Formation, etc.) parmi une liste prédéfinie*
+	Obligatoire : L'utilisateur doit sélectionner une valeur. &lt;br> La liste des motifs doit être configurable par l'administrateur système
+	Champ "Date(s) de l'absence"
+	"Date(s) de l'absence" (Libellé), "Sélectionnez la période" (Placeholder)
+	Sélecteur de Dates (Date Picker) avec icône calendrier
+	Permettre à l'utilisateur de sélectionner une plage de dates (date de début et date de fin) pour l'absence
+	Obligatoire : L'utilisateur doit choisir une période. &lt;br> La date de fin doit être égale ou postérieure à la date de début. &lt;br> Un calendrier interactif doit s'afficher au clic sur le champ ou l'icône
+	Champ "Ajouter un commentaire"
+	"Ajouter un commentaire" (Libellé)
+	Zone de Texte Multiligne
+	Permettre à l'utilisateur de fournir des informations complémentaires ou des précisions sur sa demande
+	Facultatif : L'utilisateur peut laisser ce champ vide. Limite de caractères possible (ex: 500 caractères)
+	Bouton "Soumettre ma demande"
+	"Soumettre ma demande"
+	Bouton d'Action
+	Valider les données du formulaire et envoyer la demande d'absence au système pour traitement et démarrage du workflow de validation
+	Le bouton doit être désactivé par défaut tant que les champs obligatoires (Motif, Dates) ne sont pas remplis. Au clic :
+- Déclenche les validations
+En cas de succès, envoie les données :   - Affiche un indicateur de chargement pendant la soumission.
+- Affiche un message de succès ou d'erreur à l'issue de l'opération
+- Déclenche le workflow de notification et validation (ex: envoi au manager)
+	Messages de Validation/Erreur
+	Ex: "Veuillez sélectionner un motif", "Période invalide", "Demande soumise avec succès"
+	Texte dynamique
+	Informer l'utilisateur de l'état de la saisie ou de la soumission de la demande.
+	Affichés de manière contextuelle (ex: sous le champ concerné) ou via des notifications globales (toast/snackbar) suite à la soumission.
+	
+
+*La liste prédéfinie est à finaliser avec le client
+
+
+   5. Mes demandes (Historique)
+  
+
+
+
+Ce bloc est le composant principal de la page "Historique", il est dédié à l'affichage, au filtrage et à la consultation des demandes d'absence et de congés de l'utilisateur.
+   * Objectif du Bloc : Permettre à l'utilisateur de visualiser l'ensemble de ses demandes passées et en cours, de les filtrer et de les trier pour en faciliter la consultation.
+   * Composants et Fonctionnalités Détaillées :
+
+Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Titre du Bloc
+	"HISTORIQUE DE MES DEMANDES"
+	Texte statique
+	Indiquer clairement la finalité du bloc
+	
+
+	Filtre "Absences"
+	"Filtrer par Absences" (Libellé), "Absences" (Placeholder))
+	Liste Déroulante (Dropdown)
+	Permettre à l'utilisateur de restreindre l'affichage des demandes en fonction de leur type d'absence (ex: Congés Payés, Maladie, RTT, etc., ou "TAbsences" pour toutes les formes d’absence)
+	Comportement : Au changement de sélection, le tableau des demandes doit se mettre à jour dynamiquement pour n'afficher que les demandes correspondant au critère sélectionné.
+	Filtre "État"
+	"Filtrer par État" (Libellé), "État" (Placeholder)
+	Liste Déroulante (Dropdown)
+	Permettre à l'utilisateur de filtrer les demandes selon leur statut actuel (ex: "Validé", "En attente", "Refusé", "Etat" pour afficher tous les états)
+	Comportement : Au changement de sélection, le tableau des demandes doit se mettre à jour dynamiquement
+	Bouton de Catégorisation "Absences"
+	"Absences"
+	Bouton / Onglet
+	Afficher spécifiquement les demandes liées aux absences et congés dans le tableau. Sert de filtre rapide pour cette catégorie
+	État par défaut : Actif / sélectionné
+	Tableau des données
+	(Ensemble des demandes)
+	Grille de données / Tableau
+	Afficher de manière structurée l'historique des demandes de l'utilisateur, avec leurs attributs clés
+	Les demandes sont affichées sous forme de lignes. Supporte le défilement vertical si le nombre de lignes dépasse la hauteur visible.
+	Colonnes du Tableau
+	TYPE D'ABSENCE, DATE DE DEMANDE, DATE DE DÉCISION, DATE DE DÉBUT, DATE DE FIN, COMMENTAIRE, ÉTAT
+	En-têtes de Colonnes
+	Organiser et présenter les informations de chaque demande. Permettre le tri des données
+	Chaque en-tête de colonne doit être cliquable pour trier les données du tableau (ascendant/descendant) par cette colonne. Une icône (ex: flèche haut/bas) doit indiquer l'état du tri. COMMENTAIRE : Contient une icône (loupe) qui, au clic ou au survol, affiche le contenu complet du commentaire associé à la demande (dans une modale ou une infobulle).
+ÉTAT : Le texte de l'état (Validé, En attente, Refusé) est accompagné d'un fond coloré (“Validé” en vert, “En attente” en orange, “Refusé” en rouge) pour une lecture rapide
+	Lignes du Tableau
+	Données spécifiques à chaque demande
+	Lignes de données
+	Représenter une demande individuelle avec toutes ses informations pertinentes
+	Chaque ligne correspond à une demande d'absence/congé spécifique. Le survol d'une ligne peut entraîner un léger changement visuel pour indiquer l'interactivité. Potentiellement : Au clic sur une ligne, pourrait ouvrir une vue détaillée de la demande (non visible sur cette maquette).
+	Barre de Défilement (Scrollbar)
+	
+
+	Composant graphique de défilement
+	Permettre à l'utilisateur de naviguer à travers l'ensemble des demandes si elles dépassent la hauteur visible du tableau
+	Apparaît uniquement lorsque le contenu du tableau excède l'espace d'affichage alloué
+	
+
+
+
+
+
+      6. Gestion de mon équipe (Mon équipe)
+
+
+  
+
+
+
+      * Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Barre de recherche
+	"Entrer le nom du service que vous managez ou le nom / matricule du collaborateur…"
+	Champ de recherche libre
+	Rechercher dynamiquement un agent ou un service supervisé
+	Recherche par nom partiel, matricule exact ou nom de service ; mise à jour instantanée de l’organigramme
+	Titre de section
+	“Mon équipeé
+	Texte statique
+	indiquer que l'utilisateur accède à la gestion de son équipendiquer que l'utilisateur accède à la gestion de son équipe
+	
+
+	Nom du service
+	"Service de chirurgie" (exemple)
+	
+
+	Afficher le service sélectionné ou détecté automatiquement pour le cadre
+	S'affiche automatiquement si le cadre n'encadre qu'un seul service ; sinon dépend de la recherche
+	Organigramme
+	Icônes agents
+	Schéma visuel interactif
+	Représenter la hiérarchie du cadre et des membres de son équipe
+	Cliquer sur une icône déclenche l’ouverture de la fiche agent correspondante
+	Icône agent
+	Exemple : "Pauline LECQU", "Éric POUT"
+	
+
+	Afficher les membres de l’équipe encadrée
+	
+
+	Fiche agent détaillé
+	Données personnelles et RH de l’agent
+	Bloc d’informations
+	Consulter le profil d’un agent sélectionné
+	S’ouvre au clic sur un agent ; se ferme automatiquement si un autre est sélectionné
+	Données dans la fiche agent
+	- Nom, prénom
+- Matricule
+- Service
+- Compétences : C1, C2, C3
+- Contrat horaire : 10h
+	
+
+	Informer le cadre sur les infos RH clés du collaborateur
+	
+
+	Bouton « Plus de détails »
+	Texte du bouton : "Plus de détails"
+	Bouton d’action secondaire
+	Afficher une fiche élargie du collaborateur, avec plus d’informations RH, administratives et professionnelles
+	Ouvre une fenêtre modale ou panneau latéral sans quitter la page. Données en lecture seule.
+	
+
+      7. Gestion de mon équipe (Planification)
+
+
+  
+
+
+
+
+
+Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Titre de section
+	"SIMULATION DE PLANNING"
+	Texte statique
+	Rechercher dynamiquement un agent ou un service supervisé
+	
+
+	Filtres temporels
+	"Année", "Mois", "Semaine"
+	Listes déroulantes (dropdowns)
+	Sélectionner la période à visualiser (année, mois, semaine)
+	Mise à jour automatique du tableau dès qu’un filtre change. Valeurs à charger dynamiquement.
+	Tableau de planification
+	Tableau avec noms / jours / valeurs
+	Tableau dynamique
+	Visualiser le planning de l’équipe sélectionnée sur la période choisie
+	Chaque cellule = code de planning (ex. RH, CA, J, etc.). Le tableau est modifiable selon le mode.
+	Colonne "Nom / Prénom"
+	Liste des soignants encadrés 
+	Données dynamiques
+	Identifier les agents planifiés
+	Affichage selon l’ordre alphabétique ou organisationnel
+	Cellules du tableau planning
+	Code jour par agent/jour
+	
+
+	Visualiser ou saisir les affectations par jour (code d’activité)
+	En mode simulation ou modification uniquement. Contrôle de cohérence à prévoir (voir règles métier).
+	Bouton "Simuler"
+	
+
+	
+
+	1. Simuler avec contrat actuel
+2. Simuler avec contrat personnalisé
+	      1. Génère un planning automatique basé sur le contrat horaire RH existant de chaque agent
+      2. Permet au cadre d’entrer manuellement un taux horaire (ex. : 28h, 37h) pour chaque agent avant simulation. Le système simule alors le planning en fonction de ces valeurs personnalisées
+	Bouton "Valider"
+	
+
+	
+
+	Enregistrer définitivement un planning simulé
+	
+
+	Bouton "Modifier"
+	
+
+	
+
+	Passer en mode édition manuelle du planning
+	
+
+	Bouton "Publier"
+	
+
+	Bouton action dropdown
+	Rendre visible le planning validé aux soignants
+	Options possibles : “Publier aux agents”, “Notifier”, “Annuler publication” (à spécifier)
+	
+
+      8. Gestion de mon équipe (Missions)
+
+
+L’écran dédié à la création et au suivi des missions ponctuelles (remplacements, vacations, besoins exceptionnels) dans le module “Gestion de mon équipe”, ainsi que ses déclinaisons — “Validation des missions” pour les cadres, et le bouton “Mission” dans le profil soignant — doivent être considérés avec précaution dans le périmètre de développement.
+
+
+Lors de la réunion tenue avec le client le 18 juin 2025, un point d’attention majeur a été soulevé :
+“L’établissement utilise actuellement la solution Hublo pour la publication et la Il est peu probable qu’ils puissent s’en détacher dans l’immédiat.”gestion des missions de remplacement. 
+En conséquence, plusieurs options restent à clarifier avec le client :
+      * Soit le nouvel outil vient remplacer Hublo et Agile Time à terme, auquel cas un module “Missions” doit être spécifié et intégré.
+      * Soit Hublo continue d’être utilisé en parallèle, auquel cas il est recommandé de ne pas développer les écrans suivants :
+
+         * L’écran “Missions” du profil cadre (création de missions)
+         * L’écran “Validation des missions” (gestion des réponses)
+         * Le bouton “Mission” visible dans l’espace soignant (affichage et engagement sur une mission)
+
+Par ailleurs, si un développement ultérieur est envisagé, il conviendrait de s’inspirer étroitement des logiques fonctionnelles mises en œuvre dans Hublo, notamment l’action de poster une mission (type de mission, profil recherché, durée, plage horaire, validation)
+
+Tant que l’avenir de Hublo n’est pas tranché par le client, les modules “Missions” sont à considérer comme hors périmètre fonctionnel dans la version initiale de l’outil.
+            9. Gestion de mon équipe (Validation des missions)
+
+
+Ce même raisonnement (Voir h.)s’applique à l’écran “Validation des missions”, qui ne devra pas être développé tant que l’outil Hublo reste en usage actif au sein de l’établissement.
+
+
+            10. Gestion de mon équipe (Validation des demandes)
+
+
+
+
+  
+
+
+
+
+
+
+
+Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Titre de la page
+	"VALIDATION DES DEMANDES"
+	Texte statique
+	Indique que le cadre accède aux demandes RH de son équipe à valider 
+	
+
+	Loupe de recherche
+	
+
+	Champs de filtre (recherche libre)
+	Affiner l'affichage selon les critères choisis
+	
+
+	Tableau de validation
+	Liste des demandes reçues
+	Tableau dynamique
+	Affiche toutes les demandes RH (congés, absences, repos, etc.) des agents sous supervision
+	Triable par colonne (ex. date, type). Données ordonnées par défaut par date de demande
+	Colonne "Nom du collab"
+	Ex. : "Mia MBAPPE", "Pauline LECOU"
+	
+
+	Identifie le demandeur
+	
+
+	Colonne "Type de demande"
+	
+
+	Texte
+	Détaille la nature de la demande (CA, Repos, Abs Paternité…)
+	
+
+	Colonnes "Date de demande", "Date de début", "Date de fin"
+	
+
+	Valeurs dynamiques
+	Affiche les dates clés liées à la demande
+	
+
+	Affiche les dates clés liées à la demande
+	Icône bulle
+	Icône interactif
+	Ouvre une modale ou tooltip avec le texte libre saisi par l’agent
+	
+
+	Colonne "Décision"
+	✅ / ❌
+	
+
+	Permet au cadre de valider ou rejeter une demande
+	Un seul clic suffit ; message de confirmation recommandé. Action enregistrée immédiatement.
+
+
+	
+
+
+
+Profil Soignants
+
+
+            1. Harmonisation – Écrans communs aux profils soignant et cadre
+Plusieurs écrans du profil soignant reprennent à l’identique la structure, l’architecture et le fonctionnement des écrans déjà spécifiés pour le profil cadre. Seuls les contenus ou données affichées varient selon le rôle utilisateur, mais les fonctionnalités restent inchangées.
+Les écrans suivants sont donc mutualisés entre les deux profils :
+            * Écran de connexion : même logique d’authentification par matricule et mot de passe.
+            * Page d’accueil : tableau de bord similaire, avec alertes, calendrier et résumé des anomalies/événements
+            * Historique des demandes : structure identique de tableau listant les absences et congés déjà demandés.
+
+Concernant l’écran “Mes demandes > Mes comptes temps / Synthèse des droits”, l’interface est également strictement la même, tant sur le plan visuel que fonctionnel.
+La seule différence réside dans les valeurs affichées, puisque :
+               * Les types de compte temps et leurs soldes sont spécifiques au statut du soignant (ex. : agents de soins, vacataires, etc.),
+               * Les libellés peuvent être adaptés (certains droits peuvent ne pas s’appliquer aux cadres et inversement).
+En conséquence, ces écrans ne font pas l’objet d’une double spécification technique, et devront être pilotés dynamiquement selon le type de profil détecté à la connexion
+
+
+               2. Mes anomalies
+  
+
+
+
+Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Titre de la page
+	"MES ANOMALIES"
+	Texte statique
+	Indique à l’utilisateur qu’il visualise les anomalies de gestion du temps
+	
+
+	Tableau des anomalies
+	Colonnes : Date, Anomalie, Action
+	Tableau dynamique
+	Liste toutes les anomalies associées à l’utilisateur connecté
+	Ordre antéchronologique (de la plus récente à la plus ancienne). Affichage conditionné au profil
+	Colonne "Date"
+	Ex : 01/02/2025
+	Valeur dynamique
+	Affiche la date de détection de l’anomalie
+	
+
+	Colonne "Anomalie"
+	Ex : "Journée de solidarité", "Balance horaire…"
+	Texte dynamique
+	Description brève de l’anomalie détectée
+	Texte libre alimenté automatiquement par le système RH ou le manager
+	Colonne "Faire une requête"
+	Icône ou lien
+	Bouton ou lien d’action
+	Permet à l’utilisateur de soumettre une contestation ou demande de correction
+	Cliquer ouvre un formulaire pré-rempli 
+	
+
+               * Comportements attendus
+               * Si aucune anomalie n’est détectée pour le collaborateur : Affichage d’un message neutre type : "Aucune anomalie enregistrée à ce jour."
+               * Un clic sur "Faire une requête" ouvre un formulaire contextuel, prérempli avec :
+               * La date de l’anomalie
+               * Son libellé
+               * Un champ texte libre pour commentaire du soignant
+               * Contraintes techniques 
+               * Affichage réservé au profil collaborateur uniquement (aucune modification possible côté soignant)
+               * Comportement adaptatif : si une anomalie est déjà en traitement → désactiver l’action “Faire une requête”
+               * Prévoir une pagination ou un scroll si >10 anomalies listées
+
+
+               3. Mon agenda
+  
+
+
+
+
+
+Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Titre de la page
+	"MON AGENDA"
+	Texte statique
+	Affiche l’agenda personnel du soignant connecté
+	
+
+	Sélecteur de mois
+	Ex. : "Septembre 2025"
+	Bouton dropdown
+	Permet de naviguer entre les mois pour consulter ou renseigner des disponibilités
+	Actualise dynamiquement le tableau en fonction donu mois  
+	Bouton “Option d’affichage”
+	
+
+	Bouton dropdown
+	Personnaliser la vue de l’agenda (vue semaine, filtres par type d’activité, etc.)
+	
+
+	Bouton “Missions”
+	
+
+	
+
+	 Accès aux missions ponctuelles proposées ( à ne pas développer si Hublo est conservé)
+	
+
+	Tableau calendrier
+	
+
+	Tableau interactif
+	Affiche le calendrier du mois avec les jours et semaines, permettant à l'utilisateur de déclarer ses préférences de trava
+	
+
+	Bouton “+”
+	
+
+	Bouton action contextuel
+	Permet de proposer sa disponibilité pour travailler ce jour-là
+	Clic ouvre un formulaire de saisie rapide (voir bloc suivant)
+	
+
+               * Comportement du bouton “+” (Proposition de disponibilité)
+
+
+
+
+Fonction
+	Comportement attendu
+	Clic sur “+”
+	Ouvre une modale de saisie permettant à l’agent d’indiquer :
+               * L’heure de début souhaitée
+               * L’heure de fin souhaitée
+               * Un commentaire éventuel
+	Enregistrement
+	La disponibilité est transmise au système en tant que proposition à valider plus tard par le cadre
+	Affichage après saisie
+	Le jour concerné est visuellement marqué (couleur, puce ou label "Proposé")
+	Modification / suppression
+	Un clic ultérieur permet de modifier ou supprimer la disponibilité proposée
+	               * Contraintes techniques
+
+
+Le système doit enregistrer ces données sans les publier dans le planning officiel tant qu’elles ne sont pas validées
+
+
+               4. Agenda des collaborateurs 
+
+
+
+
+  
+
+
+
+Cette page permettra à l’utilisateur de consulter les jours travaillés ou absents de ses collègues.
+L’agent concerné doit avoir activé une option de partage de planning (profil paramétrable ou paramètre RH global). Si non autorisé, afficher : “Agenda non partagé” ou masquer la ligne correspondante.
+
+
+Élément UI / Composant
+	Libellé / Contenu
+	Type d'Élément
+	Objectif / Fonctionnalité
+	Règles de Gestion / Comportement
+	Titre de la page
+	"AGENDA DES COLLABORATEURS"
+	Texte statique
+	L’utilisateur peut consulter le calendrier de ses collègues
+	
+
+	Sélecteur de mois
+	Ex. : "Septembre 2025"
+	Dropdown
+	Permet de naviguer entre les mois
+	Met à jour dynamiquement le contenu du tableau
+	Sélecteur de service
+	Ex. : "Service"
+	Dropdown
+	Choisir le service pour lequel on souhaite consulter les plannings des agents
+	Liste limitée aux services auxquels le collaborateur appartient (à voir avec les utilisateurs)
+	Barre de recherche collaborateur
+	"Entrez le nom et prénom du collaborateur"
+	Champ de recherche libre
+	Permet de filtrer l’agenda affiché pour un collaborateur spécifique
+	Filtrage dynamique en temps réel
+	Calendrier
+	
+
+	Calendrier interactif
+	Affiche le planning mensuel collectif sous forme de calendrier
+	Données affichées : présences, absences, indisponibilités, validations (codes couleurs ou icônes).
+	
+
+               * Comportement fonctionnel
+               * Lecture seule uniquement : aucune action possible pour le collaborateur (pas de modification, ni saisie)
+               * Le planning collectif affiche uniquement les agents appartenant au même service que le collaborateur connecté. (à vérifier auprès des utilisateurs)
+               * Clic sur un jour ne déclenche aucune interaction (comportement passif)
+               * La liste des présences/absences doit être représentée par codes couleurs, symboles ou initiales selon charte RH définie.
+
+                  * Clause de confidentialité et contrainte d’affichage
+
+
+L’accès à l’agenda d’un collègue n’est possible que si ce dernier a donné son accord explicite, conformément aux contraintes définies dans les paramètres du système ou dans les règles RH de l’établissement.
+Si aucun accord n’est donné par un agent, ses disponibilités ou absences ne seront pas visibles dans l’agenda partagé.
+
+
+RÈGLES DE GESTION MÉTIER 
+
+
+Les règles de gestion métier définissent les conditions de fonctionnement, de cohérence, de validation et de sécurisation applicables à l’ensemble des modules de la plateforme. Elles visent à garantir un usage conforme aux pratiques internes et aux exigences réglementaires du Centre Hospitalier d’Arpajon.
+Cette section constitue une première structuration des règles de gestion, élaborée sur la base des échanges avec les utilisateurs (cadres et soignants). Toutefois, ces règles doivent impérativement être consolidées avec la Direction des Ressources Humaines, notamment sur les volets relatifs aux droits, à la planification réglementaire et aux exceptions statutaires.
+En effet, faute de disponibilité, la participation formelle du service RH n’a pas pu être obtenue dans le cadre du calendrier de développement initial.
+
+
+                  1. Disponibilités et auto-planification
+                  * Un collaborateur peut proposer une seule disponibilité par jour, incluant un horaire de début et de fin.
+                  * Le système doit empêcher la saisie :
+                  * d’une disponibilité sur une date passée,
+                  * d’un horaire de fin antérieur à l’horaire de début.
+
+                     * Toute proposition de disponibilité est transmise en attente de validation par le cadre référent.
+
+                     * Si aucun créneau n’est proposé par le collaborateur, le cadre ou le système peut générer un planning par défaut.
+
+                        2. Gestion des absences
+                        * Les demandes d’absence ne peuvent être déposées que dans la limite des droits restants affichés dans la synthèse des comptes temps.
+                        * Les motifs d’absence disponibles sont déterminés dynamiquement selon le statut du collaborateur (ex. : CA, RTT, maladie, décès, etc.).
+                        * Le système doit vérifier qu’aucune absence ne se superpose à une absence déjà validée ou à une mission confirmée.
+
+                        * Toute demande d’absence est soumise à validation manuelle du cadre.
+                        * En cas de refus, la saisie d’un commentaire explicatif est recommandée pour assurer la traçabilité.
+
+                           3. Planning et simulation
+                           * Les cadres peuvent :
+                           * Simuler un planning en utilisant les contrats RH en vigueur ;
+                           * Ou simuler un planning avec des horaires personnalisés temporairement (simulation pure sans impact RH).
+                           * Lors de la validation d’un planning :
+                           * Le total hebdomadaire de chaque agent est contrôlé par rapport à son contrat horaire.
+                           * Le système doit signaler :
+                           * les dépassements (ex. : >35h/semaine pour un contrat à 32h),
+                           * les manques de jours travaillés obligatoires (ex. : présence minimale de 3 jours par semaine),
+                           * l'oubli de jour de repos hebdomadaire obligatoire.
+
+                              4. Règles de confidentialité
+                              * Un soignant peut consulter l’agenda de ses collègues uniquement si ces derniers ont donné leur accord de partage.
+                              * Les agents ayant refusé le partage apparaissent comme "Agenda non disponible" ou ne sont pas listés du tout.
+                              * L’accès à des données RH sensibles (soldes, motifs médicaux, etc.) est strictement limité aux personnes autorisées
+
+
+                              5.  Anomalies et requêtes
+                              * Toute anomalie détectée (ex. : journée non justifiée, dépassement horaire, absence imprévue) est affichée automatiquement dans la rubrique “Mes anomalies”.
+                              * L’utilisateur peut faire une requête de correction sur chaque anomalie (via formulaire associé).
+                              * Le cadre est notifié pour chaque requête et doit valider ou rejeter la correction proposée.
+
+CONCLUSION 
+Ce cahier des charges fonctionnel constitue le socle de référence pour le développement de l’outil de gestion intelligente et co-construite des plannings du Centre Hospitalier d’Arpajon. Il rassemble l’ensemble des besoins exprimés, des fonctionnalités attendues, des règles de gestion identifiées, ainsi que les éléments d’interface nécessaires pour garantir une conception fluide, efficace et conforme aux usages du terrain.
+L’objectif principal est de fournir à l’ensemble des parties prenantes – soignants, cadres, services RH – un outil ergonomique, fiable et évolutif, capable de soutenir les enjeux opérationnels tout en améliorant la qualité de vie au travail et la maîtrise des coûts de suppléance.
+Il est toutefois rappelé que certaines parties, notamment les règles de gestion métier et certaines validations fonctionnelles, devront faire l’objet d’un travail complémentaire avec les équipes RH avant mise en production. Ce document constitue ainsi une base vivante, susceptible d’être adaptée en fonction des retours utilisateurs, des évolutions réglementaires ou des priorités institutionnelles.
