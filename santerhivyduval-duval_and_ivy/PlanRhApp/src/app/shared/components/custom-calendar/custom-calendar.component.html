@@ -1,267 +1,208 @@
 <div class="custom-calendar">
   <!-- Header avec navigation -->
   <div class="calendar-header">
-    <div class="navigation-buttons">
-      <button class="nav-button" (click)="navigateView('prev')">
-        <i class="pi pi-chevron-left"></i>
+    <button
+      type="button"
+      class="nav-button"
+      (click)="previousMonth()"
+      aria-label="Mois précédent"
+    >
+      ‹
+    </button>
+    <h3 class="month-year">{{ currentMonth }}</h3>
+    <button
+      type="button"
+      class="nav-button"
+      (click)="nextMonth()"
+      aria-label="Mois suivant"
+    >
+      ›
+    </button>
+  </div>
+
+  <!-- Contrôles d'affichage -->
+  <div class="calendar-controls">
+    <div class="control-group">
+      <button class="control-button" (click)="toggleDisplayOptions()">
+        Options d'affichage ▼
       </button>
-      <span class="month-year">{{ currentViewData.title }}</span>
-      <button class="nav-button" (click)="navigateView('next')">
-        <i class="pi pi-chevron-right"></i>
-      </button>
-      <button class="today-button" (click)="goToToday()">Aujourd'hui</button>
+
+      <!-- Menu déroulant des options d'affichage -->
+      <div class="dropdown-menu" *ngIf="showDisplayOptions">
+        <button
+          class="dropdown-item"
+          (click)="setDisplayMode('monthly')"
+          [class.active]="displayMode === 'monthly'"
+        >
+          Mensuelle
+        </button>
+        <button
+          class="dropdown-item"
+          (click)="setDisplayMode('weekly')"
+          [class.active]="displayMode === 'weekly'"
+        >
+          Hebdomadaire
+        </button>
+        <button
+          class="dropdown-item"
+          (click)="setDisplayMode('daily')"
+          [class.active]="displayMode === 'daily'"
+        >
+          Journalière
+        </button>
+      </div>
     </div>
 
-    <div class="filter-buttons">
-      <div class="dropdown-container">
-        <button class="filter-button" (click)="toggleViewOptions()">
-          Options d'affichage
-          <i
-            class="pi pi-chevron-down"
-            [class.pi-chevron-up]="showViewOptions"
-          ></i>
-        </button>
+    <div class="control-group">
+      <button class="control-button" (click)="toggleMissions()">
+        Missions ▼
+      </button>
 
-        <!-- Dropdown Options d'affichage -->
-        <div
-          class="dropdown-menu"
-          *ngIf="showViewOptions"
-          (clickOutside)="closeDropdowns()"
-        >
-          <div class="dropdown-header">
-            <i class="pi pi-cog"></i>
-            <span>Personnaliser la vue</span>
+      <!-- Menu déroulant des filtres de missions -->
+      <div class="dropdown-menu mission-filters" *ngIf="showMissionFilters">
+        <div class="filter-section">
+          <h4>Légende</h4>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              id="disponibiliteValidee"
+              [checked]="missionFilters.disponibiliteValidee"
+              (change)="toggleMissionFilter('disponibiliteValidee')"
+            />
+            <label for="disponibiliteValidee" class="filter-label">
+              <span class="color-indicator" style="background: #10b981"></span>
+              Disponibilité validée
+            </label>
           </div>
-
-          <div class="view-options">
-            <div class="option-group">
-              <label class="option-group-label">Type de vue</label>
-              <div
-                class="option-item"
-                *ngFor="let view of viewOptions"
-                [class.selected]="currentView === view.value"
-                (click)="selectView(view)"
-              >
-                <i [class]="view.icon"></i>
-                <span>{{ view.label }}</span>
-                <i class="pi pi-check" *ngIf="currentView === view.value"></i>
-              </div>
-            </div>
-
-            <div class="option-group">
-              <label class="option-group-label">Filtres par type</label>
-              <div
-                class="option-item checkbox-item"
-                *ngFor="let filter of filterOptions"
-                (click)="toggleFilter(filter)"
-              >
-                <div class="checkbox">
-                  <i class="pi pi-check" *ngIf="filter.checked"></i>
-                </div>
-                <span>{{ filter.label }}</span>
-              </div>
-            </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              id="disponibiliteProposee"
+              [checked]="missionFilters.disponibiliteProposee"
+              (change)="toggleMissionFilter('disponibiliteProposee')"
+            />
+            <label for="disponibiliteProposee" class="filter-label">
+              <span class="color-indicator" style="background: #3b82f6"></span>
+              Disponibilité proposée
+            </label>
           </div>
-        </div>
-      </div>
-
-      <div class="dropdown-container">
-        <button class="filter-button" (click)="toggleFilterOptions()">
-          Missions
-          <i
-            class="pi pi-chevron-down"
-            [class.pi-chevron-up]="showFilterOptions"
-          ></i>
-        </button>
-
-        <!-- Dropdown Missions -->
-        <div
-          class="dropdown-menu"
-          *ngIf="showFilterOptions"
-          (clickOutside)="closeDropdowns()"
-        >
-          <div class="dropdown-header">
-            <i class="pi pi-filter"></i>
-            <span>Filtrer les missions</span>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              id="disponibiliteRefusee"
+              [checked]="missionFilters.disponibiliteRefusee"
+              (change)="toggleMissionFilter('disponibiliteRefusee')"
+            />
+            <label for="disponibiliteRefusee" class="filter-label">
+              <span class="color-indicator" style="background: #ef4444"></span>
+              Disponibilité refusée
+            </label>
           </div>
-
-          <div class="filter-options">
-            <div
-              class="option-item checkbox-item"
-              *ngFor="let filter of filterOptions"
-              (click)="toggleFilter(filter)"
-            >
-              <div class="checkbox">
-                <i class="pi pi-check" *ngIf="filter.checked"></i>
-              </div>
-              <span>{{ filter.label }}</span>
-            </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              id="soins"
+              [checked]="missionFilters.soins"
+              (change)="toggleMissionFilter('soins')"
+            />
+            <label for="soins" class="filter-label">
+              <span class="color-indicator" style="background: #8b5cf6"></span>
+              Soins
+            </label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              id="conge"
+              [checked]="missionFilters.conge"
+              (change)="toggleMissionFilter('conge')"
+            />
+            <label for="conge" class="filter-label">
+              <span class="color-indicator" style="background: #f59e0b"></span>
+              Congé
+            </label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              id="repos"
+              [checked]="missionFilters.repos"
+              (change)="toggleMissionFilter('repos')"
+            />
+            <label for="repos" class="filter-label">
+              <span class="color-indicator" style="background: #06b6d4"></span>
+              Repos
+            </label>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Contenu adaptatif selon la vue -->
-  <div class="calendar-content">
-    <!-- Vue mensuelle -->
-    <div *ngIf="currentView === 'month'" class="month-view">
-      <div class="calendar-grid">
-        <!-- En-têtes des jours de la semaine -->
-        <div
-          class="day-header"
-          *ngFor="
-            let day of [
-              'LUNDI',
-              'MARDI',
-              'MERCREDI',
-              'JEUDI',
-              'VENDREDI',
-              'SAMEDI',
-              'DIMANCHE'
-            ]
-          "
+  <!-- Grille du calendrier -->
+  <div class="calendar-grid">
+    <!-- En-tête vide pour la colonne des semaines -->
+    <div class="week-header-empty"></div>
+
+    <!-- En-têtes des jours de la semaine -->
+    <div class="day-header" *ngFor="let day of weekDays">{{ day }}</div>
+
+    <!-- Semaines et jours du calendrier -->
+    <ng-container *ngFor="let week of getWeeks(); let weekIndex = index">
+      <!-- Numéro de semaine -->
+      <div class="week-number-cell">Semaine {{ getWeekNumber(week[0]) }}</div>
+
+      <!-- Jours de la semaine -->
+      <div
+        class="calendar-day"
+        *ngFor="let day of week"
+        [class.selected]="isSelected(day)"
+        [class.today]="isToday(day)"
+        [class.other-month]="!isCurrentMonth(day)"
+        [class.has-events]="hasEvents(day)"
+        [class.has-proposal]="hasProposal(day)"
+        [style.background-color]="getEventColor(day)"
+        [title]="getEventTooltip(day)"
+        [attr.aria-label]="day.toLocaleDateString('fr-FR')"
+      >
+        <span class="day-number">{{ day.getDate() }}</span>
+
+        <!-- Bouton + pour proposer disponibilité -->
+        <button
+          class="proposal-button"
+          *ngIf="canProposeAvailability(day)"
+          (click)="proposeAvailability(day, $event)"
+          title="Proposer ma disponibilité"
         >
-          {{ day }}
+          +
+        </button>
+
+        <!-- Indicateur d'événements -->
+        <div class="event-indicator" *ngIf="hasEvents(day)">
+          <div class="event-dot"></div>
         </div>
 
-        <!-- Jours du mois -->
-        <div
-          class="day-cell"
-          *ngFor="let day of calendarDays"
-          [ngClass]="getDayClass(day)"
-          (click)="onDayClick(day)"
-        >
-          <span class="day-number">{{ day.day }}</span>
-
-          <!-- Bouton d'ajout (coin supérieur droit) -->
-          <button
-            class="propose-button"
-            *ngIf="day.isCurrentMonth && !day.isPast"
-            (click)="onDayClick(day); $event.stopPropagation()"
-            title="Proposer disponibilité"
-          >
-            <i class="pi pi-plus"></i>
-          </button>
-
-          <!-- Événements du jour -->
-          <div
-            class="day-events"
-            *ngIf="getFilteredEventsForDay(day).length > 0"
-          >
-            <div
-              *ngFor="let event of getFilteredEventsForDay(day)"
-              class="event-item"
-              [style.background-color]="event.color"
-              [title]="event.title + ' - ' + event.timeRange"
-            >
-              <span class="event-title">{{ event.title }}</span>
-              <span class="event-time">{{ event.timeRange }}</span>
-            </div>
-          </div>
-
-          <!-- Indicateur d'événement (coin inférieur droit) -->
-          <div
-            class="event-indicator"
-            *ngIf="getFilteredEventsForDay(day).length > 0"
-          >
-            <i class="pi pi-circle-fill"></i>
-          </div>
-        </div>
+        <!-- Label "Proposé" -->
+        <div class="proposal-label" *ngIf="hasProposal(day)">Proposé</div>
       </div>
-    </div>
+    </ng-container>
+  </div>
 
-    <!-- Vue hebdomadaire -->
-    <div *ngIf="currentView === 'week'" class="week-view">
-      <div class="week-grid">
-        <div
-          class="week-day"
-          *ngFor="let day of weekDays"
-          [ngClass]="getDayClass(day)"
-          (click)="onDayClick(day)"
-        >
-          <div class="day-header">{{ getDayName(day.date) }}</div>
-          <div class="day-number">{{ day.day }}</div>
-
-          <!-- Bouton d'ajout -->
-          <button
-            class="propose-button"
-            *ngIf="!day.isPast"
-            (click)="onDayClick(day); $event.stopPropagation()"
-            title="Proposer disponibilité"
-          >
-            <i class="pi pi-plus"></i>
-          </button>
-
-          <!-- Événements du jour -->
-          <div
-            class="day-events"
-            *ngIf="getFilteredEventsForDay(day).length > 0"
-          >
-            <div
-              *ngFor="let event of getFilteredEventsForDay(day)"
-              class="event-item"
-              [style.background-color]="event.color"
-              [title]="event.title + ' - ' + event.timeRange"
-            >
-              <span class="event-title">{{ event.title }}</span>
-              <span class="event-time">{{ event.timeRange }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Vue journalière -->
-    <div *ngIf="currentView === 'day'" class="day-view">
-      <div class="day-detail" *ngIf="dayData">
-        <div class="day-header-large">
-          <h2>
-            {{ dayData.date.toLocaleDateString("fr-FR", { weekday: "long" }) }}
-          </h2>
-          <h3>
-            {{
-              dayData.date.toLocaleDateString("fr-FR", {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-              })
-            }}
-          </h3>
-        </div>
-
-        <!-- Bouton d'ajout pour la vue journalière -->
-        <div class="day-add-section">
-          <button
-            class="add-button-large"
-            *ngIf="!dayData.isPast"
-            (click)="onDayClick(dayData)"
-            title="Proposer disponibilité"
-          >
-            <i class="pi pi-plus"></i>
-            <span>Ajouter une disponibilité</span>
-          </button>
-        </div>
-
-        <div class="day-timeline">
-          <!-- Timeline des heures -->
-          <div class="time-slot" *ngFor="let hour of getHoursOfDay()">
-            <div class="time-label">{{ hour }}:00</div>
-            <div class="time-events">
-              <!-- Événements à cette heure -->
-              <div
-                *ngFor="let event of getEventsForHour(hour)"
-                class="timeline-event"
-                [style.background-color]="event.color"
-                [title]="event.title + ' - ' + event.timeRange"
-              >
-                <span class="event-title">{{ event.title }}</span>
-                <span class="event-time">{{ event.timeRange }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- Barre d'actions (optionnelle) -->
+  <div class="calendar-actions" *ngIf="showButtonBar">
+    <button
+      type="button"
+      class="action-button today-button"
+      (click)="selectToday()"
+    >
+      Aujourd'hui
+    </button>
+    <button
+      type="button"
+      class="action-button clear-button"
+      (click)="clearSelection()"
+    >
+      Effacer
+    </button>
   </div>
 </div>

@@ -71,17 +71,64 @@
   border: 1px solid #e2e8f0;
 }
 
+/* Navigation des semaines */
+.week-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.nav-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-button:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.nav-button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.current-period {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1.1rem;
+  text-align: center;
+  flex: 1;
+}
+
 .planning-table-container {
-  overflow-x: auto;
+  overflow-x: visible;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   margin-bottom: 20px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .planning-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
+  table-layout: fixed;
 }
 
 .week-header {
@@ -119,7 +166,7 @@
   padding: 15px;
   text-align: left;
   border: 1px solid #e2e8f0;
-  min-width: 120px;
+  width: 15%;
 }
 
 .contract-header {
@@ -129,7 +176,7 @@
   padding: 15px;
   text-align: center;
   border: 1px solid #e2e8f0;
-  min-width: 100px;
+  width: 12%;
 }
 
 .agent-cell {
@@ -153,7 +200,7 @@
   padding: 8px;
   border: 1px solid #e2e8f0;
   text-align: center;
-  min-width: 60px;
+  width: 10.4%;
   height: 50px;
   position: relative;
   vertical-align: middle;
@@ -348,6 +395,7 @@
 }
 
 /* Responsive design */
+/* Responsive Design */
 @media (max-width: 1200px) {
   .planification-header {
     flex-direction: column;
@@ -365,6 +413,45 @@
   
   .action-buttons {
     justify-content: center;
+  }
+  
+  .planning-table {
+    font-size: 0.8rem;
+  }
+  
+  .planning-cell {
+    padding: 4px;
+    min-height: 35px;
+  }
+  
+  .activity-code {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .planning-table {
+    font-size: 0.7rem;
+  }
+  
+  .planning-cell {
+    padding: 2px;
+    min-height: 30px;
+  }
+  
+  .agent-header,
+  .contract-header {
+    padding: 8px;
+  }
+  
+  .week-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
 }
 
@@ -393,6 +480,22 @@
   .simulation-options,
   .publish-options {
     flex-direction: column;
+  }
+  
+  .week-navigation {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .nav-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .current-period {
+    order: -1;
+    margin-bottom: 10px;
   }
   
   .planning-table {

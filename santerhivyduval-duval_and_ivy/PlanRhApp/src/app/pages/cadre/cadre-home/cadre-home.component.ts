@@ -4,7 +4,6 @@ import { TableModule } from 'primeng/table';
 import { BadgeModule } from 'primeng/badge';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { CalendarModule } from 'primeng/calendar';
 import { AbsenceService } from '../../../services/absence/absence.service';
 import { UserService } from '../../../services/user/user.service';
 import { ServiceService } from '../../../services/service/service.service';
@@ -23,6 +22,8 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { TagModule } from 'primeng/tag';
+import { CustomCalendarComponent } from '../../../shared/components/custom-calendar/custom-calendar.component';
+import { SimpleCalendarComponent } from '../../../shared/components/simple-calendar/simple-calendar.component';
 
 @Component({
   selector: 'app-cadre-home',
@@ -34,7 +35,7 @@ import { TagModule } from 'primeng/tag';
     BadgeModule,
     ToastModule,
     TagModule,
-    CalendarModule
+    SimpleCalendarComponent
   ],
   standalone: true,
   templateUrl: './cadre-home.component.html',
@@ -94,6 +95,7 @@ export class CadreHomeComponent implements OnInit {
   anomaliesCount: number = 0;
   pendingEventsCount: number = 0;
   currentDate: string = '';
+  selectedCalendarDate: Date | null = null;
 
   constructor(
     private absenceService: AbsenceService,
@@ -513,5 +515,11 @@ export class CadreHomeComponent implements OnInit {
     } else {
       this.nearestHREvent = null;
     }
+  }
+
+  onCalendarDateSelect(date: Date): void {
+    this.selectedCalendarDate = date;
+    console.log('Date sélectionnée:', date);
+    // Ici vous pouvez ajouter la logique pour réagir à la sélection de date
   }
 }

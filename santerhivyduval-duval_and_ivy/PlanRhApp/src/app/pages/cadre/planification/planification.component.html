@@ -101,6 +101,31 @@
     <p-button label="Annuler publication" [outlined]="true"> </p-button>
   </div>
 
+  <!-- Navigation des semaines -->
+  <div class="week-navigation" *ngIf="!loading && agents.length > 0">
+    <button 
+      class="nav-button prev-button" 
+      (click)="previousWeeks()" 
+      [disabled]="!canGoPrevious()"
+      title="Semaines précédentes">
+      ‹‹ Semaines précédentes
+    </button>
+    
+    <div class="current-period">
+      <span *ngIf="planningWeeks.length > 0">
+        Semaines {{ planningWeeks[0].semaine }} - {{ planningWeeks[planningWeeks.length - 1].semaine }}
+      </span>
+    </div>
+    
+    <button 
+      class="nav-button next-button" 
+      (click)="nextWeeks()" 
+      [disabled]="!canGoNext()"
+      title="Semaines suivantes">
+      Semaines suivantes ››
+    </button>
+  </div>
+
   <!-- Tableau de planification -->
   <div class="planning-table-container" *ngIf="!loading && agents.length > 0">
     <table class="planning-table">

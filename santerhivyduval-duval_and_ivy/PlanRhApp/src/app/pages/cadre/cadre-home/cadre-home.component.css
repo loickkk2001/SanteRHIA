@@ -3,6 +3,9 @@
   padding: 20px;
   background-color: #f8f9fa;
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .portal-header {
@@ -20,20 +23,26 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 30px;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .left-column {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .right-column {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .section-container {
@@ -41,6 +50,9 @@
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .section-title {
@@ -101,6 +113,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .management-card {
@@ -114,6 +128,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .card-number {
@@ -176,6 +193,8 @@
 
 .custom-calendar {
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* Upcoming Events */
@@ -257,6 +276,50 @@
   
   .card-number {
     font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .saphir-portal-container {
+    padding: 10px;
+  }
+  
+  .section-container {
+    padding: 15px;
+  }
+  
+  .portal-title {
+    font-size: 1.3rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+  }
+  
+  .info-alerts-evolutions {
+    padding: 20px 10px;
+    min-height: 80px;
+  }
+  
+  .info-line {
+    font-size: 0.9rem;
+  }
+  
+  .management-card {
+    padding: 15px 10px;
+    min-height: 70px;
+  }
+  
+  .card-number {
+    font-size: 2rem;
+  }
+  
+  .card-text {
+    font-size: 0.8rem;
+  }
+  
+  .card-details {
+    font-size: 0.7rem;
   }
 }
 

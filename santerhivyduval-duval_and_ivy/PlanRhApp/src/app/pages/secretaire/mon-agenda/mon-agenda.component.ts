@@ -17,7 +17,20 @@ import { TagModule } from 'primeng/tag';
 import { BadgeModule } from 'primeng/badge';
 
 // Custom Calendar Component
-import { CustomCalendarComponent, CalendarDay, CalendarEvent, CalendarView } from '../../../shared/components/custom-calendar/custom-calendar.component';
+import { CustomCalendarComponent, CalendarEvent } from '../../../shared/components/custom-calendar/custom-calendar.component';
+
+// Interfaces locales pour le composant mon-agenda
+interface CalendarDay {
+  date: Date;
+  events: CalendarEvent[];
+  isToday: boolean;
+  isSelected: boolean;
+}
+
+interface CalendarView {
+  type: string;
+  date: Date;
+}
 
 // Services
 import { AvailabilityService } from '../../../services/availability/availability.service';
@@ -261,17 +274,18 @@ export class MonAgendaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  onDateSelect(event: any): void {
-    this.selectedDate = event;
-    this.loadCalendarData();
-  }
-
-  onDayClick(day: CalendarDay): void {
-    console.log('Jour cliqué:', day);
-    this.selectedDay = day.date;
+  onDateSelect(date: Date): void {
+    this.selectedDate = date;
+    this.selectedDay = date;
     this.showAvailabilityModal = true;
     this.resetForms();
-    console.log('Modal ouverte:', this.showAvailabilityModal);
+  }
+
+  onProposalClick(date: Date): void {
+    this.selectedDate = date;
+    this.selectedDay = date;
+    this.showAvailabilityModal = true;
+    this.resetForms();
   }
 
   resetForms(): void {
@@ -447,12 +461,6 @@ export class MonAgendaComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     
     return '';
-  }
-
-  onViewChange(view: CalendarView): void {
-    console.log('Vue changée:', view);
-    // Optionnel : sauvegarder la préférence utilisateur
-    localStorage.setItem('calendar-view', view.type);
   }
 
   // Les méthodes de navigation sont maintenant gérées par le composant custom-calendar

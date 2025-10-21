@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MonAgendaComponent } from './mon-agenda.component';
+import { CustomCalendarComponent } from './custom-calendar.component';
 
-describe('MonAgendaComponent', () => {
-  let component: MonAgendaComponent;
-  let fixture: ComponentFixture<MonAgendaComponent>;
+describe('CustomCalendarComponent', () => {
+  let component: CustomCalendarComponent;
+  let fixture: ComponentFixture<CustomCalendarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MonAgendaComponent]
+      declarations: [ CustomCalendarComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MonAgendaComponent);
+    fixture = TestBed.createComponent(CustomCalendarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,9 +21,3 @@ describe('MonAgendaComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-
-
-
-
-

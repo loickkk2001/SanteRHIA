@@ -18,9 +18,10 @@
         <app-custom-calendar
           [events]="events"
           [selectedDate]="selectedDate"
-          (dayClick)="onDayClick($event)"
-          (dateChange)="onDateSelect($event)"
-          (viewChange)="onViewChange($event)"
+          [showWeekNumbers]="true"
+          [showButtonBar]="false"
+          (dateSelect)="onDateSelect($event)"
+          (proposalClick)="onProposalClick($event)"
         ></app-custom-calendar>
       </div>
     </p-card>

@@ -3,3 +3,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global styles to prevent horizontal scrolling */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure all containers respect viewport width */
+.container, .container-fluid, [class*="container"] {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Prevent PrimeNG components from causing horizontal scroll */
+.p-component {
+  max-width: 100%;
+}
+
+/* Ensure grids don't overflow */
+.grid, [class*="grid"] {
+  max-width: 100%;
+  overflow-x: hidden;
+}

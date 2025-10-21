@@ -6,7 +6,6 @@ import { ChartModule } from 'primeng/chart';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
@@ -28,6 +27,8 @@ import { User } from '../../../models/User';
 import { Contrat } from '../../../models/contrat';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { CustomCalendarComponent } from '../../../shared/components/custom-calendar/custom-calendar.component';
+import { SimpleCalendarComponent } from '../../../shared/components/simple-calendar/simple-calendar.component';
 
 @Component({
   selector: 'app-sec-home',
@@ -40,9 +41,9 @@ import { catchError } from 'rxjs/operators';
     TagModule,
     ButtonModule,
     DialogModule,
-    CalendarModule,
     FormsModule,
-    ToastModule
+    ToastModule,
+    SimpleCalendarComponent
   ],
   templateUrl: './sec-home.component.html',
   styleUrl: './sec-home.component.css',
@@ -105,6 +106,7 @@ export class SecHomeComponent implements OnInit {
   
   // Nearest HR event
   nearestHREvent: any = null;
+  selectedCalendarDate: Date | null = null;
 
   constructor(
     private absenceService: AbsenceService,
@@ -608,6 +610,12 @@ export class SecHomeComponent implements OnInit {
 
   showInfo(message: string) {
     this.messageService.add({ severity: 'info', summary: 'Information', detail: message });
+  }
+
+  onCalendarDateSelect(date: Date): void {
+    this.selectedCalendarDate = date;
+    console.log('Date sélectionnée:', date);
+    // Ici vous pouvez ajouter la logique pour réagir à la sélection de date
   }
 
   // Méthode getDetectionRules supprimée car le monitoring n'est plus utilisé

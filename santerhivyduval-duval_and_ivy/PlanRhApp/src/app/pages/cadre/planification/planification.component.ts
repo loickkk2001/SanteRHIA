@@ -60,6 +60,7 @@ export class PlanificationComponent implements OnInit, OnDestroy {
   showSimulationOptions = false;
   showPublishOptions = false;
   loading = false;
+  currentWeekOffset = 0; // Offset pour la navigation par blocs de semaines
   
   // Édition manuelle
   selectedAgentId: string = '';
@@ -245,7 +246,7 @@ export class PlanificationComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Génération des semaines de planification
+  // Génération des semaines de planification (limité à 2-3 semaines)
   generatePlanningWeeks(): void {
     this.planningWeeks = [];
     const year = this.filters.annee;
@@ -258,8 +259,14 @@ export class PlanificationComponent implements OnInit, OnDestroy {
     let currentWeek = this.getWeekNumber(firstDay);
     const weeksInMonth = this.getWeekNumber(lastDay) - currentWeek + 1;
     
-    for (let i = 0; i < weeksInMonth; i++) {
-      const weekStart = this.getStartOfWeek(firstDay, currentWeek + i);
+    // Limiter à 2 semaines maximum pour un meilleur affichage
+    const maxWeeks = Math.min(weeksInMonth, 2);
+    
+    // Appliquer l'offset pour la navigation
+    const startWeek = currentWeek + this.currentWeekOffset;
+    
+    for (let i = 0; i < maxWeeks; i++) {
+      const weekStart = this.getStartOfWeek(firstDay, startWeek + i);
       const dates = [];
       
       for (let j = 0; j < 7; j++) {
@@ -269,11 +276,46 @@ export class PlanificationComponent implements OnInit, OnDestroy {
       }
       
       this.planningWeeks.push({
-        semaine: currentWeek + i,
+        semaine: startWeek + i,
         annee: year,
         dates: dates
       });
     }
+  }
+
+  // Navigation par blocs de semaines
+  previousWeeks(): void {
+    this.currentWeekOffset = Math.max(0, this.currentWeekOffset - 2);
+    this.generatePlanningWeeks();
+  }
+
+  nextWeeks(): void {
+    const year = this.filters.annee;
+    const month = this.filters.mois;
+    const firstDay = new Date(year, month - 1, 1);
+    const lastDay = new Date(year, month, 0);
+    const currentWeek = this.getWeekNumber(firstDay);
+    const weeksInMonth = this.getWeekNumber(lastDay) - currentWeek + 1;
+    
+    if (this.currentWeekOffset + 2 < weeksInMonth) {
+      this.currentWeekOffset += 2;
+      this.generatePlanningWeeks();
+    }
+  }
+
+  canGoPrevious(): boolean {
+    return this.currentWeekOffset > 0;
+  }
+
+  canGoNext(): boolean {
+    const year = this.filters.annee;
+    const month = this.filters.mois;
+    const firstDay = new Date(year, month - 1, 1);
+    const lastDay = new Date(year, month, 0);
+    const currentWeek = this.getWeekNumber(firstDay);
+    const weeksInMonth = this.getWeekNumber(lastDay) - currentWeek + 1;
+    
+    return this.currentWeekOffset + 2 < weeksInMonth;
   }
 
   // Tâche 1.3.3 : Valider une proposition
