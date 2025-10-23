@@ -64,3 +64,5 @@ export class SimpleCalendarComponent implements OnInit {
     return date.getMonth() === this.currentDate.getMonth();
   }
 }
+
+

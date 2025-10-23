@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
+import { Planning, PlanningUpdate } from '../../models/planning';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class PlanningService {
 
   constructor(private http: HttpClient) {}
 
-  createPlanning(planning: any): Observable<any> {
+  createPlanning(planning: Planning): Observable<any> {
     return this.http.post(this.apiUrl, planning);
   }
 
@@ -27,7 +28,7 @@ export class PlanningService {
     return this.http.get(`${this.apiUrl}/activity/${activityCode}`);
   }
 
-  updatePlanning(id: string, planning: any): Observable<any> {
+  updatePlanning(id: string, planning: PlanningUpdate): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, planning);
   }
 
@@ -43,6 +44,8 @@ export class PlanningService {
     return this.http.get(`${this.apiUrl}/stats/summary`);
   }
 }
+
+
 
 
 

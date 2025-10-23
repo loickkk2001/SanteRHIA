@@ -12,6 +12,16 @@ export interface Availability {
   user_matricule?: string;
 }
 
+export interface AvailabilityUpdate {
+  date?: string;
+  start_time?: string;
+  end_time?: string;
+  status?: 'proposé' | 'validé' | 'refusé';
+  commentaire?: string;
+}
+
+
+
 
 
 

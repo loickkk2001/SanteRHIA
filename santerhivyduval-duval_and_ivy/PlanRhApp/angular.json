@@ -57,6 +57,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "hmr": true,
+            "hmrPort": 4202
+          },
           "configurations": {
             "production": {
               "buildTarget": "PlanRhApp:build:production"

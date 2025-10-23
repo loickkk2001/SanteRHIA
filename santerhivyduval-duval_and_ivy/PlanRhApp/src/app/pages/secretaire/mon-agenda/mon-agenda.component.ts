@@ -372,15 +372,16 @@ export class MonAgendaComponent implements OnInit, OnDestroy, AfterViewInit {
       date: dateString,
       start_time: this.availabilityForm.start_time,
       end_time: this.availabilityForm.end_time,
+      status: 'proposé' as const,
       commentaire: this.availabilityForm.commentaire
     };
 
     console.log('Données à envoyer:', availabilityData);
 
-    this.availabilityService.createAvailability(availabilityData)
+    this.availabilityService.proposeAvailability(availabilityData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => {
+        next: (response: any) => {
           console.log('Réponse du serveur:', response);
           this.messageService.add({
             severity: 'success',
@@ -390,7 +391,7 @@ export class MonAgendaComponent implements OnInit, OnDestroy, AfterViewInit {
           this.closeModals();
           this.loadCalendarData();
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Erreur lors de la création:', error);
           this.messageService.add({
             severity: 'error',

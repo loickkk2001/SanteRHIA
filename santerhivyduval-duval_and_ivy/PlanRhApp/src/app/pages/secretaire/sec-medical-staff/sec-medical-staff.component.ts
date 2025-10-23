@@ -147,10 +147,13 @@ export class SecMedicalStaffComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.workDaysArray.length === 0) {
-      this.addWorkDay();
-    }
-    this.cdr.detectChanges();
+    // Attendre que le formulaire soit complètement initialisé
+    setTimeout(() => {
+      if (this.workDaysArray.length === 0) {
+        this.addWorkDay();
+      }
+      this.cdr.detectChanges();
+    }, 0);
   }
 
   loadAllData(): void {
@@ -168,7 +171,7 @@ export class SecMedicalStaffComponent implements AfterViewInit {
           { label: 'Toutes', value: '' },
           ...this.speciality.map(s => ({ label: s.name, value: s.id }))
         ];
-        this.absences = absencesResponse.data.reduce((acc: { [userId: string]: Absence[] }, absence: Absence) => {
+        this.absences = (absencesResponse.data || []).reduce((acc: { [userId: string]: Absence[] }, absence: Absence) => {
           if (absence.staff_id) {
             if (!acc[absence.staff_id]) {
               acc[absence.staff_id] = [];

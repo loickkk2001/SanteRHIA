@@ -12,6 +12,14 @@ export interface Planning {
   user_matricule?: string;
 }
 
+export interface PlanningUpdate {
+  activity_code?: 'SOIN' | 'CONGÉ' | 'REPOS' | 'FORMATION' | 'ADMINISTRATIF';
+  plage_horaire?: string;
+  commentaire?: string;
+}
+
+
+
 
 
 
