@@ -3,6 +3,12 @@
   padding: 20px;
   background: white;
   min-height: 100vh;
+  color: #374151;
+}
+
+/* Assurer la visibilité de tous les textes */
+.planification-container * {
+  color: inherit;
 }
 
 .planification-header {
@@ -110,10 +116,14 @@
 
 .current-period {
   font-weight: 600;
-  color: #374151;
+  color: #374151 !important;
   font-size: 1.1rem;
   text-align: center;
   flex: 1;
+}
+
+.current-period span {
+  color: #374151 !important;
 }
 
 .planning-table-container {
@@ -133,7 +143,7 @@
 
 .week-header {
   background: #3b82f6;
-  color: white;
+  color: white !important;
   text-align: center;
   font-weight: bold;
   padding: 10px;
@@ -142,7 +152,7 @@
 
 .day-header {
   background: #f8fafc;
-  color: #374151;
+  color: #374151 !important;
   text-align: center;
   font-weight: 600;
   padding: 8px;
@@ -152,7 +162,7 @@
 
 .date-header {
   background: #f1f5f9;
-  color: #64748b;
+  color: #64748b !important;
   text-align: center;
   font-size: 0.8rem;
   padding: 5px;
@@ -161,7 +171,7 @@
 
 .agent-header {
   background: #f8fafc;
-  color: #374151;
+  color: #374151 !important;
   font-weight: bold;
   padding: 15px;
   text-align: left;
@@ -171,7 +181,7 @@
 
 .contract-header {
   background: #f8fafc;
-  color: #374151;
+  color: #374151 !important;
   font-weight: bold;
   padding: 15px;
   text-align: center;
@@ -185,6 +195,7 @@
   border: 1px solid #e2e8f0;
   font-weight: 500;
   white-space: nowrap;
+  color: #374151 !important;
 }
 
 .contract-cell {
@@ -194,6 +205,7 @@
   text-align: center;
   font-weight: 500;
   font-family: 'Courier New', monospace;
+  color: #374151 !important;
 }
 
 .planning-cell {
@@ -204,6 +216,7 @@
   height: 50px;
   position: relative;
   vertical-align: middle;
+  color: #1e293b !important;
 }
 
 .planning-cell.proposed {
@@ -256,7 +269,8 @@
 .activity-code {
   font-weight: bold;
   font-size: 0.9rem;
-  color: #1e293b;
+  color: #1e293b !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .cell-actions {
@@ -578,6 +592,38 @@
   height: 6px;
   border-radius: 50%;
   background: transparent;
+}
+
+/* Assurer la visibilité du texte dans les cellules de planning */
+.cell-content {
+  color: #1e293b !important;
+}
+
+.cell-content span {
+  color: #1e293b !important;
+}
+
+/* Styles pour les boutons PrimeNG */
+::ng-deep .p-button-label {
+  color: inherit !important;
+  font-weight: 500;
+}
+
+::ng-deep .p-button {
+  color: inherit;
+}
+
+/* Styles pour les dropdowns PrimeNG */
+::ng-deep .p-dropdown-label {
+  color: #374151 !important;
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  color: #374151 !important;
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  color: white !important;
 }
 
 .planning-cell.proposed .cell-content::after {

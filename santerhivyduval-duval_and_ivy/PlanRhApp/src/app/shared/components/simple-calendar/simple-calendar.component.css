@@ -16,22 +16,23 @@
   align-items: center;
   padding: 15px 20px;
   background: #065594;
-  color: white;
+  color: white !important;
 }
 
 .nav-button {
   background: transparent;
   border: none;
-  color: white;
+  color: white !important;
   font-size: 1.5rem;
   cursor: pointer;
   padding: 5px 10px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
+  font-weight: bold;
 }
 
 .nav-button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .month-year {
@@ -40,6 +41,7 @@
   font-weight: 600;
   text-align: center;
   flex: 1;
+  color: white !important;
 }
 
 /* Grille du calendrier */
@@ -47,18 +49,18 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  background: #e0e0e0;
+  background: #e5e7eb;
 }
 
 /* En-têtes des jours */
 .day-header {
-  background: #f8f9fa;
+  background: #f8fafc;
   padding: 10px 5px;
   text-align: center;
   font-weight: 600;
   font-size: 0.85rem;
-  color: #495057;
-  border-bottom: 1px solid #dee2e6;
+  color: #374151 !important;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 /* Jours du calendrier */
@@ -71,26 +73,35 @@
   align-items: center;
   justify-content: center;
   font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  color: #1e293b !important;
+  font-weight: 500;
+  border: 1px solid transparent;
 }
 
 .calendar-day:hover {
-  background: #f0f8ff;
+  background: #f0f9ff;
+  border-color: #bae6fd;
+  transform: scale(1.05);
 }
 
 .calendar-day.today {
   font-weight: bold;
-  background: #e3f2fd;
-  color: #065594;
+  background: #dbeafe !important;
+  color: #065594 !important;
+  border: 2px solid #065594;
+  box-shadow: 0 2px 4px rgba(6, 85, 148, 0.2);
 }
 
 .calendar-day.other-month {
-  color: #adb5bd;
-  background: #f8f9fa;
+  color: #9ca3af !important;
+  background: #f9fafb;
+  opacity: 0.6;
 }
 
 .calendar-day.other-month:hover {
-  background: #e9ecef;
+  background: #f3f4f6;
+  opacity: 0.8;
 }
 
 /* Responsive Design */
@@ -101,22 +112,34 @@
   
   .month-year {
     font-size: 1rem;
+    color: white !important;
   }
   
   .nav-button {
     font-size: 1.3rem;
     padding: 4px 8px;
+    color: white !important;
   }
   
   .day-header {
     padding: 8px 3px;
     font-size: 0.8rem;
+    color: #374151 !important;
   }
   
   .calendar-day {
     min-height: 35px;
     padding: 6px 3px;
     font-size: 0.85rem;
+    color: #1e293b !important;
+  }
+
+  .calendar-day.today {
+    color: #065594 !important;
+  }
+
+  .calendar-day.other-month {
+    color: #9ca3af !important;
   }
 }
 
@@ -127,18 +150,43 @@
   
   .month-year {
     font-size: 0.9rem;
+    color: white !important;
+  }
+  
+  .nav-button {
+    font-size: 1.2rem;
+    color: white !important;
   }
   
   .day-header {
     padding: 6px 2px;
     font-size: 0.75rem;
+    color: #374151 !important;
   }
   
   .calendar-day {
     min-height: 30px;
     padding: 4px 2px;
     font-size: 0.8rem;
+    color: #1e293b !important;
+  }
+
+  .calendar-day.today {
+    color: #065594 !important;
+  }
+
+  .calendar-day.other-month {
+    color: #9ca3af !important;
   }
 }
+
+
+
+
+
+
+
+
+
 
 
